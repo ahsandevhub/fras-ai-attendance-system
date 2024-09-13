@@ -48,8 +48,8 @@ const Attendance = () => {
     const fetchData = async () => {
       if (filters.dept && filters.sem && filters.sec) {
         try {
-          const response = await fetchAllStudents(dept, sem, sec);
-          setStudents(response.studentsWithStringId);
+          const { students } = await fetchAllStudents(dept, sem, sec);
+          setStudents(students);
         } catch (error) {
           console.error("Error fetching students:", error);
         }
@@ -396,7 +396,7 @@ const Attendance = () => {
                             <td className="border p-1">{index + 1}</td>
                             <td className="border p-1">
                               <Image
-                                src={`/images/students/${student.photo}`}
+                                src={student.photo}
                                 width={50}
                                 height={50}
                                 alt={student.id}
