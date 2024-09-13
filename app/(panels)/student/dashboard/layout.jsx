@@ -1,4 +1,10 @@
+import { validateToken } from "@/app/lib/jwt";
 import SideNav from "@/app/ui/SideNav";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import NextTopLoader from "nextjs-toploader";
+import { FaUserGraduate } from "react-icons/fa6";
+import { GiNotebook } from "react-icons/gi";
 
 export const metadata = {
   title: "Students Panel | Facial Recognation Attendence System (FRAS)",
@@ -6,10 +12,28 @@ export const metadata = {
     "Facial Recognation Attendence System (FRAS), Developed by: Ahsan DevHub",
 };
 
-const StudentLayout = ({ children }) => {
+const StudentLayout = async ({ children }) => {
+  const cookieStore = cookies();
+  const token = cookieStore.get("studentToken")?.value;
+
+  const { valid } = await validateToken(token);
+  const isExist = cookies().has("studentToken");
+
+  if (!isExist || !valid) {
+    redirect("/student");
+  }
+
   const links = [
-    { name: "My Profile", href: "/student/dashboard", icon: "HomeIcon" },
-    { name: "Courses", href: "/student/dashboard/courses", icon: "HomeIcon" },
+    {
+      name: "My Profile",
+      href: "/student/dashboard",
+      icon: <FaUserGraduate />,
+    },
+    {
+      name: "Courses",
+      href: "/student/dashboard/courses",
+      icon: <GiNotebook />,
+    },
   ];
 
   const colors = {
@@ -27,6 +51,7 @@ const StudentLayout = ({ children }) => {
         <SideNav links={links} text="Students Panel" colors={colors} />
       </aside>
       <main className="m-4 flex-grow rounded-md border p-5 md:overflow-y-auto">
+        <NextTopLoader color="#2563eb" height={4} showSpinner={false} />
         {children}
       </main>
     </div>

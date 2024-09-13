@@ -13,7 +13,7 @@ const RenderSideNavLink = ({ links, colors, showSideNav, setShowSideNav }) => {
           <Link
             key={link.name}
             href={link.href}
-            className={`flex h-[48px] items-center gap-2 border bg-gray-50 text-sm font-medium ${colors.hoverBg} ${colors.hoverText} flex-none justify-start px-3 ${pathname === link.href && `${colors.border} ${colors.lightBg} ${colors.text}`}`}
+            className={`flex h-[48px] items-center gap-2 rounded-md border bg-gray-50 text-sm font-medium ${colors.hoverBg} ${colors.hoverText} flex-none justify-start px-3 ${pathname === link.href && `${colors.border} ${colors.lightBg} ${colors.text}`}`}
             onClick={() => setShowSideNav(false)}
           >
             <div className="icon text-xl">{link.icon}</div>

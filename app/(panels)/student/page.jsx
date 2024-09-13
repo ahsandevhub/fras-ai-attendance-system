@@ -1,22 +1,19 @@
 "use client";
 
+import { studentLogin } from "@/app/lib/login";
 import Logo from "@/app/ui/landing-page/Logo";
 import StudentIcon from "@/public/images/common/graduating-student.png";
 import Image from "next/image";
 import { useState } from "react";
-// import { useFormState, useFormStatus } from "react-dom";
-import { AiOutlineLoading } from "react-icons/ai";
+import { useFormState } from "react-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { HiOutlineArrowNarrowRight } from "react-icons/hi";
+import { LiaExclamationCircleSolid } from "react-icons/lia";
+import StudentLoginButton from "./login-button";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const pending = false;
-
-  // const { pending } = useFormStatus();
-
-  // const initialState = { message: null, errors: {} };
-  // const [state, formAction] = useFormState(authenticateStudent, initialState);
+  const initialState = { message: null, errors: {} };
+  const [state, formAction] = useFormState(studentLogin, initialState);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -32,7 +29,7 @@ const LoginPage = () => {
           </div>
           <h3 className="text-xl font-bold text-gray-900">Student Panel</h3>
         </div>
-        <form className="space-y-6">
+        <form action={formAction} className="space-y-6">
           <div className="space-y-1">
             <label
               htmlFor="email"
@@ -101,30 +98,18 @@ const LoginPage = () => {
               </a>
             </div>
           </div>
-          {/* {state.message && (
-            <div className="flex items-center gap-2 text-sm text-red-500">
-              <AiOutlineExclamationCircle className="text-base" />
-              <p>{state.message}</p>
-            </div>
-          )} */}
-          <div>
-            <button
-              type="submit"
-              disabled={pending}
-              className={`flex h-10 w-full items-center rounded-lg px-4 text-sm font-medium text-white transition-colors ${pending ? "cursor-not-allowed bg-gray-500 opacity-50" : "bg-emerald-500 hover:bg-emerald-600"} `}
+          {state.message && (
+            <div
+              className="flex items-center space-x-1"
+              aria-live="polite"
+              aria-atomic="true"
             >
-              {pending ? (
-                <>
-                  <AiOutlineLoading className="mr-auto animate-spin text-lg text-gray-50" />
-                  Logging in...
-                </>
-              ) : (
-                <>
-                  Log in
-                  <HiOutlineArrowNarrowRight className="ml-auto h-5 w-5 text-gray-50" />
-                </>
-              )}
-            </button>
+              <LiaExclamationCircleSolid className="text-lg text-red-500" />
+              <p className="text-sm text-red-500">{state.message}</p>
+            </div>
+          )}
+          <div>
+            <StudentLoginButton />
           </div>
         </form>
       </div>

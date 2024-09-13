@@ -1,21 +1,19 @@
 "use client";
 
+import { adminLogin } from "@/app/lib/login";
 import Logo from "@/app/ui/landing-page/Logo";
 import AdminIcon from "@/public/images/common/settings.png";
 import Image from "next/image";
 import { useState } from "react";
-// import { useFormState, useFormStatus } from "react-dom";
-import { AiOutlineLoading } from "react-icons/ai";
+import { useFormState } from "react-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { HiOutlineArrowNarrowRight } from "react-icons/hi";
+import { LiaExclamationCircleSolid } from "react-icons/lia";
+import AdminLoginButton from "./login-button";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const pending = false;
-  // const { pending } = useFormStatus();
-
-  // const initialState = { message: null, errors: {} };
-  // const [state, formAction] = useFormState(authenticateAdmin, initialState);
+  const initialState = { message: null, errors: {} };
+  const [state, formAction] = useFormState(adminLogin, initialState);
 
   return (
     <div className="flex items-center justify-center sm:min-h-screen sm:bg-gray-100">
@@ -31,7 +29,7 @@ const LoginPage = () => {
           </div>
           <h3 className="text-xl font-bold text-gray-900">Admin Panel</h3>
         </div>
-        <form className="space-y-6">
+        <form action={formAction} className="space-y-6">
           <div className="space-y-1">
             <label
               htmlFor="email"
@@ -63,6 +61,7 @@ const LoginPage = () => {
                 required
                 className="block w-full rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm outline-blue-500 focus:outline-2 sm:text-sm"
                 placeholder="********"
+                minLength={6}
               />
               <div
                 className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-lg"
@@ -100,30 +99,18 @@ const LoginPage = () => {
               </a>
             </div>
           </div>
-          {/* {state.message && (
-            <div className="flex items-center gap-2 text-sm text-red-500">
-              <AiOutlineExclamationCircle className="text-base" />
-              <p>{state.message}</p>
-            </div>
-          )} */}
-          <div>
-            <button
-              type="submit"
-              disabled={pending}
-              className={`flex h-10 w-full items-center rounded-lg px-4 text-sm font-medium text-white transition-colors ${pending ? "cursor-not-allowed bg-gray-500 opacity-50" : "bg-blue-500 hover:bg-blue-600"} `}
+          {state.message && (
+            <div
+              className="flex items-center space-x-1"
+              aria-live="polite"
+              aria-atomic="true"
             >
-              {pending ? (
-                <>
-                  <AiOutlineLoading className="mr-auto animate-spin text-lg text-gray-50" />
-                  Logging in...
-                </>
-              ) : (
-                <>
-                  Log in
-                  <HiOutlineArrowNarrowRight className="ml-auto h-5 w-5 text-gray-50" />
-                </>
-              )}
-            </button>
+              <LiaExclamationCircleSolid className="text-lg text-red-500" />
+              <p className="text-sm text-red-500">{state.message}</p>
+            </div>
+          )}
+          <div>
+            <AdminLoginButton />
           </div>
         </form>
       </div>

@@ -1,65 +1,17 @@
-'use client'
+"use client";
 
-import { fetchCourses } from '@/app/lib/data'
-import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { FaEdit } from 'react-icons/fa'
-import { MdDelete } from 'react-icons/md'
+import Link from "next/link";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 
 const page = () => {
-  const [courses, setCourses] = useState([])
-  const [filters, setFilters] = useState({
-    dept: '',
-    sem: '',
-    instructor: '',
-  })
-  const router = useRouter()
-  const searchParams = useSearchParams()
-
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: value,
-    }))
-  }
-
-  // Update URL parameters when filters change
-  useEffect(() => {
-    const { dept, sem, instructor } = filters
-    const query = new URLSearchParams()
-    if (dept) query.append('dept', dept)
-    if (sem) query.append('sem', sem)
-    if (instructor) query.append('instructor', instructor)
-
-    router.push(`/admin/courses?${query.toString()}`)
-  }, [filters, router])
-
-  useEffect(() => {
-    const dept = searchParams.get('dept') || ''
-    const sem = searchParams.get('sem') || ''
-    const instructor = searchParams.get('instructor') || ''
-
-    const fetchCourse = async () => {
-      try {
-        const response = await fetchCourses(dept, sem, instructor)
-        setCourses(response.data)
-      } catch (error) {
-        console.error('Error fetching courses:', error)
-      }
-    }
-
-    fetchCourse()
-  }, [searchParams])
-
   return (
     <div>
       <div className="header mb-4 flex items-center justify-between border-b pb-2">
         <h1 className="text-lg font-medium text-blue-600">Manage Courses</h1>
         <div className="buttons">
           <Link
-            href={'/admin/courses/add-course'}
+            href={"/admin/courses/add-course"}
             className="rounded border border-blue-300 bg-sky-200 px-3 py-1 text-sm font-medium text-blue-600 hover:bg-blue-600 hover:text-white"
           >
             + Add Course
@@ -76,7 +28,6 @@ const page = () => {
                 name="dept"
                 id="dept"
                 className="w-32 rounded border px-2 py-1 text-sm outline-none"
-                onChange={handleFilterChange}
               >
                 <option value="">All</option>
                 <option value="CSE">CSE</option>
@@ -93,7 +44,6 @@ const page = () => {
                 name="sem"
                 id="sem"
                 className="w-32 rounded border px-2 py-1 text-sm outline-none"
-                onChange={handleFilterChange}
               >
                 <option value="">All</option>
                 <option value="1st">1st</option>
@@ -112,7 +62,6 @@ const page = () => {
                 name="instructor"
                 id="instructor"
                 className="w-32 rounded border px-2 py-1 text-sm outline-none"
-                onChange={handleFilterChange}
               >
                 <option value="">All</option>
                 <option value="A">A</option>
@@ -184,7 +133,7 @@ const page = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

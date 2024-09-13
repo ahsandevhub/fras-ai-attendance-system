@@ -38,19 +38,6 @@ const StudentFilters = () => {
     replace(`${pathname}?${params.toString()}`);
   };
 
-  // const handleFilterChange = useDebouncedCallback((e) => {
-  //   const { name, value } = e.target;
-  //   const params = new URLSearchParams(searchParams);
-
-  //   if (value) {
-  //     params.set(name, value);
-  //   } else {
-  //     params.delete(name);
-  //   }
-
-  //   replace(`${pathname}?${params.toString()}`);
-  // }, 300);
-
   return (
     <div className="sticky top-[60px] h-max border p-2 filter xl:w-64">
       <div className="mb-2 flex items-center justify-between border-b pb-2">

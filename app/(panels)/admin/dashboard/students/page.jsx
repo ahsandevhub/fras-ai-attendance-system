@@ -18,17 +18,16 @@ const Page = async ({ searchParams }) => {
     sort: searchParams?.sort || "",
   };
 
-  const { students } = await fetchAllStudents(filters);
-  const { totalPages } = await fetchAllStudents(filters);
+  const { students, totalPages } = await fetchAllStudents(filters);
 
   return (
     <div className="space-y-3">
-      <div className="header sticky top-0 flex items-center justify-between bg-gray-200 px-4 py-3">
-        <h1 className="font-semibold text-blue-600">Manage Students</h1>
+      <div className="header sticky top-0 flex items-center justify-between rounded-b-md bg-blue-500 px-4 py-2 text-white">
+        <h1 className="font-semibold">Manage Students</h1>
         <div className="buttons">
           <Link
             href="/admin/dashboard/students/add-student"
-            className="rounded border border-blue-300 bg-sky-200 px-3 py-1 text-sm font-medium text-blue-600 hover:bg-blue-600 hover:text-white"
+            className="rounded bg-white px-3 py-1 text-sm font-medium text-blue-600 shadow-inner hover:bg-gray-200 hover:shadow"
           >
             + Add Student
           </Link>

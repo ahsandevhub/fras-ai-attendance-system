@@ -16,7 +16,7 @@ const SideNav = ({ links, text, colors }) => {
   return (
     <div
       className={clsx(
-        "fixed z-50 flex h-full w-64 flex-col transition-all duration-300 xl:relative",
+        "fixed z-50 flex h-full w-64 flex-col transition-all duration-300 md:pl-2 xl:relative",
         {
           "left-0 border-r bg-gray-100 shadow-xl xl:static xl:border-0 xl:bg-transparent xl:shadow-none":
             showSideNav === true,
@@ -25,8 +25,8 @@ const SideNav = ({ links, text, colors }) => {
       )}
     >
       <Link
-        className={`mb-2 flex h-20 items-end justify-start ${colors.bg} p-4 md:h-40`}
-        href="/teacher"
+        className={`mb-2 flex h-20 items-end justify-start rounded-b-md ${colors.bg} p-4 md:h-40`}
+        href="/"
       >
         <div className="w-32 text-white md:w-40">
           <span className="text-xl font-medium">{text}</span>
@@ -39,7 +39,7 @@ const SideNav = ({ links, text, colors }) => {
           showSideNav={showSideNav}
           setShowSideNav={setShowSideNav}
         />
-        <div className="h-auto w-full grow border bg-gray-50"></div>
+        <div className="h-auto w-full grow rounded-md border bg-gray-50"></div>
         <form
         // action={async () => {
         //   "use server";
@@ -48,7 +48,7 @@ const SideNav = ({ links, text, colors }) => {
         >
           <button
             type="submit"
-            className={`flex h-[48px] w-full items-center gap-2 border bg-gray-50 p-3 text-sm font-medium ${colors.hoverBg} hover:${colors.text} flex-none`}
+            className={`flex h-[48px] w-full items-center gap-2 rounded-t-md border bg-gray-50 p-3 text-sm font-medium ${colors.hoverBg} hover:${colors.text} flex-none`}
           >
             <IoMdPower className="text-lg" />
             <div className="">Sign Out</div>

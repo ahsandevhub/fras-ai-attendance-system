@@ -1,6 +1,5 @@
 import { inter } from "@/app/ui/fonts";
 import "@/app/ui/globals.css";
-import NextTopLoader from "nextjs-toploader";
 
 export const metadata = {
   title: "Facial Recognation Attendence System (FRAS)",
@@ -10,15 +9,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>
-        {children}
-        <NextTopLoader
-          color="#2563eb"
-          height={4}
-          speed={200}
-          showSpinner={false}
-        />
-      </body>
+      <body className={`${inter.className} antialiased`}>{children}</body>
     </html>
   );
 }
