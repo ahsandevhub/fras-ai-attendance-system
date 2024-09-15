@@ -1,12 +1,12 @@
 "use server";
 
-import { dbConnect } from "@/app/lib/db";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Admin from "../models/admin";
 import Student from "../models/student";
 import Teacher from "../models/teacher";
+import dbConnect from "./db";
 
 export async function adminLogin(prevState, formData) {
   const email = formData.get("email");

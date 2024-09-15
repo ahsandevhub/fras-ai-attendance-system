@@ -59,7 +59,7 @@ const AdminLayout = async ({ children }) => {
         <SideNav links={links} text="Admin Panel" colors={colors} />
       </aside>
       <main className="flex-grow overflow-auto">
-        <NextTopLoader color="#e11d48" height={4} showSpinner={false} />
+        <NextTopLoader color="#3b82f6" height={4} showSpinner={false} />
         {children}
       </main>
     </div>

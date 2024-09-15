@@ -1,32 +1,42 @@
 import mongoose from "mongoose";
 
-global.mongoose = {
-  conn: null,
-  promise: null,
-};
+const DATABASE_URL = process.env.MONGODB_URI;
 
-export async function dbConnect() {
-  try {
-    if (global.mongoose && global.mongoose.conn) {
-      console.log("Connected from previous");
-      return global.mongoose.conn;
-    } else {
-      const conString = process.env.MONGODB_URI;
-
-      const promise = mongoose.connect(conString, {
-        autoIndex: true,
-      });
-
-      global.mongoose = {
-        conn: await promise,
-        promise,
-      };
-
-      console.log("Newly connected");
-      return await promise;
-    }
-  } catch (error) {
-    console.error("Error connecting to the database:", error);
-    throw new Error("Database connection failed");
-  }
+if (!DATABASE_URL) {
+  throw new Error(
+    "Please define the DATABASE_URL environment variable inside .env.local",
+  );
 }
+
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+async function dbConnect() {
+  if (cached.conn) {
+    console.log("Connected from previous instance");
+    return cached.conn;
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      autoIndex: true,
+    };
+
+    const mongooseInstance = new mongoose.Mongoose();
+
+    cached.promise = mongooseInstance
+      .connect(DATABASE_URL, opts)
+      .then((mongoose) => {
+        return mongoose;
+      });
+  }
+
+  cached.conn = await cached.promise;
+  console.log("Newly connected");
+  return cached.conn;
+}
+
+export default dbConnect;

@@ -1,6 +1,6 @@
 "use server";
 
-import { dbConnect } from "@/app/lib/db";
+import dbConnect from "@/app/lib/db";
 import Student from "@/app/models/student";
 import Teacher from "@/app/models/teacher";
 import {

@@ -1,9 +1,44 @@
 "use server";
 
-import { dbConnect } from "@/app/lib/db";
+import dbConnect from "@/app/lib/db";
 import Student from "@/app/models/student";
+import Admin from "../models/admin";
 import Course from "../models/course";
 import Teacher from "../models/teacher";
+
+export async function fetchAdmin(_id) {
+  try {
+    await dbConnect();
+
+    const admin = await Admin.findById(_id).lean();
+
+    if (!admin) {
+      throw new Error("Admin not found!");
+    }
+
+    admin._id = admin._id.toString();
+    return admin;
+  } catch (error) {
+    throw new Error("Failed to fetch Admin!");
+  }
+}
+
+export async function fetchTeacher(_id) {
+  try {
+    await dbConnect();
+
+    const teacher = await Teacher.findById(_id).lean();
+
+    if (!teacher) {
+      throw new Error("Teacher not found!");
+    }
+
+    teacher._id = teacher._id.toString();
+    return teacher;
+  } catch (error) {
+    throw new Error("Failed to fetch Teacher!");
+  }
+}
 
 export async function fetchStudent(_id) {
   try {

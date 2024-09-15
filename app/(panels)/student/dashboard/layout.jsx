@@ -46,12 +46,12 @@ const StudentLayout = async ({ children }) => {
   };
 
   return (
-    <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
+    <div className="flex h-screen flex-col gap-4 md:flex-row md:overflow-hidden">
       <aside className="flex-none">
-        <SideNav links={links} text="Students Panel" colors={colors} />
+        <SideNav links={links} text="Student Panel" colors={colors} />
       </aside>
-      <main className="m-4 flex-grow rounded-md border p-5 md:overflow-y-auto">
-        <NextTopLoader color="#2563eb" height={4} showSpinner={false} />
+      <main className="mr-3 flex-grow overflow-auto">
+        <NextTopLoader color="#f59e0b" height={4} showSpinner={false} />
         {children}
       </main>
     </div>

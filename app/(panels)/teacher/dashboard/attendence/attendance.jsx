@@ -3,9 +3,12 @@
 import { fetchAllStudents, fetchStudentIds } from "@/app/lib/data";
 import * as faceapi from "face-api.js";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { BiSolidError } from "react-icons/bi";
 import { TiDelete } from "react-icons/ti";
+import { VscLoading } from "react-icons/vsc";
+import Filters from "./filters";
 
 const Attendance = () => {
   const canvasRef = useRef();
@@ -16,39 +19,23 @@ const Attendance = () => {
   const [isImageLoading, setIsImageLoading] = useState(false);
   const [isAllImageLoaded, setAllImageLoaded] = useState(false);
 
-  const [students, setStudents] = useState([]);
-  const [filters, setFilters] = useState({
-    dept: "",
-    sem: "",
-    sec: "",
-    course: "",
-  });
-  const [labeledFaceDescriptors, setLabeledFaceDescriptors] = useState([]);
-  const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Update URL parameters when filters change
-  useEffect(() => {
-    const { dept, sem, sec, course } = filters;
-    const query = new URLSearchParams();
-    if (dept) query.append("dept", dept);
-    if (sem) query.append("sem", sem);
-    if (sec) query.append("sec", sec);
-    if (course) query.append("course", course);
-
-    router.push(`/teacher/dashboard/attendence/?${query.toString()}`);
-  }, [filters, router]);
+  const [students, setStudents] = useState([]);
+  const [filters, setFilters] = useState({
+    dept: searchParams.get("dept") || "",
+    sem: searchParams.get("sem") || "",
+    sec: searchParams.get("sec") || "",
+    course: searchParams.get("course") || "",
+  });
+  const [labeledFaceDescriptors, setLabeledFaceDescriptors] = useState([]);
 
   // Fetch data based on URL parameters
   useEffect(() => {
-    const dept = searchParams.get("dept") || "";
-    const sem = searchParams.get("sem") || "";
-    const sec = searchParams.get("sec") || "";
-
     const fetchData = async () => {
       if (filters.dept && filters.sem && filters.sec) {
         try {
-          const { students } = await fetchAllStudents(dept, sem, sec);
+          const { students } = await fetchAllStudents(filters);
           setStudents(students);
         } catch (error) {
           console.error("Error fetching students:", error);
@@ -204,90 +191,22 @@ const Attendance = () => {
   const detectedIdArray = detectedFaces.map((face) => face.label.split(" ")[0]);
 
   return (
-    <div>
-      <div className="header mb-3 flex items-center justify-between border-b pb-2">
-        <h1 className="text-lg font-medium text-rose-600">Attendance Page</h1>
+    <div className="space-y-3">
+      <div className="header sticky top-0 flex items-center justify-between rounded-b-md bg-rose-500 px-4 py-2 text-white">
+        <h1 className="font-semibold">Take Attendance</h1>
       </div>
       {isModelLoading ? (
-        <div className="">Loading Models, Please wait...</div>
+        <div className="flex items-center gap-2 rounded-md border bg-gray-100 px-4 py-3">
+          <div className="loading">
+            <VscLoading className="animate-spin text-xl text-blue-600" />
+          </div>
+          <p>Loading Models, Please wait...</p>
+        </div>
       ) : (
         <div className="flex max-h-full flex-col gap-3">
-          <div className="filter_container rounded-md border bg-gray-100 px-2 py-2">
-            <form action="" className="flex gap-5">
-              <div className="group flex items-center justify-between gap-2">
-                <label htmlFor="dept">Department:</label>
-                <select
-                  name="dept"
-                  id="dept"
-                  value={filters.dept}
-                  onChange={handleFilterChange}
-                  className="w-32 rounded border px-2 py-1 text-sm outline-none"
-                >
-                  <option value="">All</option>
-                  <option value="CSE">CSE</option>
-                  <option value="EEE">EEE</option>
-                  <option value="Civil">Civil</option>
-                  <option value="Mechanical">Mechanical</option>
-                  <option value="English">English</option>
-                  <option value="BBA">BBA</option>
-                </select>
-              </div>
-              <div className="group flex items-center justify-between gap-2">
-                <label htmlFor="sem">Semester:</label>
-                <select
-                  name="sem"
-                  id="sem"
-                  value={filters.sem}
-                  onChange={handleFilterChange}
-                  className="w-32 rounded border px-2 py-1 text-sm outline-none"
-                >
-                  <option value="">All</option>
-                  <option value="1st">1st</option>
-                  <option value="2nd">2nd</option>
-                  <option value="3rd">3rd</option>
-                  <option value="4th">4th</option>
-                  <option value="5th">5th</option>
-                  <option value="6th">6th</option>
-                  <option value="7th">7th</option>
-                  <option value="8th">8th</option>
-                </select>
-              </div>
-              <div className="group flex items-center justify-between gap-2">
-                <label htmlFor="sec">Section:</label>
-                <select
-                  name="sec"
-                  id="sec"
-                  value={filters.sec}
-                  onChange={handleFilterChange}
-                  className="w-32 rounded border px-2 py-1 text-sm outline-none"
-                >
-                  <option value="">All</option>
-                  <option value="A">A</option>
-                  <option value="B">B</option>
-                  <option value="C">C</option>
-                  <option value="D">D</option>
-                </select>
-              </div>
-              <div className="group flex items-center justify-between gap-2">
-                <label htmlFor="course">Course:</label>
-                <select
-                  name="course"
-                  id="course"
-                  value={filters.course}
-                  onChange={handleFilterChange}
-                  className="w-32 rounded border px-2 py-1 text-sm outline-none"
-                >
-                  <option value="">All</option>
-                  {students.map((student) => (
-                    <option key={student._id} value={student._id}>
-                      {student.course}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </form>
-          </div>
-          {!isModelLoading && isAllImageLoaded && (
+          {/* Filters */}
+          <Filters />
+          {!isModelLoading && isAllImageLoaded ? (
             <div className="grid flex-grow grid-cols-1 gap-5 xl:grid-cols-2">
               <div className="left flex max-h-[calc(100vh-230px)] flex-col gap-3 overflow-y-auto xl:max-h-[calc(100vh-180px)]">
                 <div className="relative max-w-full flex-none overflow-hidden rounded-md border bg-sky-100">
@@ -421,6 +340,16 @@ const Attendance = () => {
                     </table>
                   </div>
                 )}
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 rounded-md border border-rose-200 bg-rose-50 px-4 py-3">
+              <div className="loading">
+                <BiSolidError className="text-xl text-rose-600" />
+              </div>
+              <p className="text-rose-500">
+                Please select <b>Department</b>, <b>Semester</b>, <b>Section</b>{" "}
+                and <b>Course</b> to take attendance.
+              </p>
             </div>
           )}
         </div>
