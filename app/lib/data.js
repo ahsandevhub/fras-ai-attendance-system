@@ -106,6 +106,32 @@ export async function fetchAllStudents({
   }
 }
 
+export async function fetchStudentsForAttendance({ dept, sem, sec }) {
+  try {
+    await dbConnect();
+
+    const query = {};
+    if (dept) query.dept = dept;
+    if (sem) query.sem = sem;
+    if (sec) query.sec = sec;
+
+    const students = await Student.find(query).lean().sort({ id: 1 });
+
+    if (!students) {
+      throw new Error("Students not found!");
+    }
+
+    const studentsWithStringId = students.map((student) => ({
+      ...student,
+      _id: student._id.toString(),
+    }));
+
+    return studentsWithStringId;
+  } catch (error) {
+    throw new Error("Failed to fetch students!");
+  }
+}
+
 export async function fetchStudentIds({ dept, sem, sec }) {
   try {
     await dbConnect();

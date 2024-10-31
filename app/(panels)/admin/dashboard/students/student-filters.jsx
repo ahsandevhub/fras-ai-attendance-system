@@ -39,7 +39,7 @@ const StudentFilters = () => {
   };
 
   return (
-    <div className="sticky top-[60px] h-max border p-2 filter xl:w-64">
+    <div className="sticky top-2 h-max border bg-white p-2 filter xl:w-64">
       <div className="mb-2 flex items-center justify-between border-b pb-2">
         <h2 className="font-bold">Filter</h2>
         <button

@@ -1,7 +1,0 @@
-import ErrorPage from './error'
-
-const ErrorBoundary = ({ error, reset }) => {
-  return <ErrorPage error={error} reset={reset} />
-}
-
-export default ErrorBoundary

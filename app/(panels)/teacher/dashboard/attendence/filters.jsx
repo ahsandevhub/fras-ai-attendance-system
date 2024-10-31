@@ -22,9 +22,20 @@ const Filters = () => {
     handleSearch(name, value);
   };
 
+  const clearFilters = () => {
+    const params = new URLSearchParams(searchParams);
+    params.delete("dept");
+    params.delete("sem");
+    params.delete("sec");
+    params.delete("course");
+    router.replace(`${pathname}?${params.toString()}`);
+
+    document.getElementById("filterForm").reset();
+  };
+
   return (
     <div className="filter_container rounded-md border bg-gray-100 px-2 py-2">
-      <form action="" className="flex gap-5">
+      <form id="filterForm" className="flex gap-5">
         <div className="group flex items-center justify-between gap-2">
           <label htmlFor="dept">Department:</label>
           <select
@@ -34,7 +45,9 @@ const Filters = () => {
             onChange={handleFilterChange}
             defaultValue={searchParams.get("dept") || ""}
           >
-            <option value="">All</option>
+            <option value="" disabled>
+              Select
+            </option>
             <option value="CSE">CSE</option>
             <option value="EEE">EEE</option>
             <option value="Civil">Civil</option>
@@ -52,7 +65,9 @@ const Filters = () => {
             onChange={handleFilterChange}
             defaultValue={searchParams.get("sem") || ""}
           >
-            <option value="">All</option>
+            <option value="" disabled>
+              Select
+            </option>
             <option value="1st">1st</option>
             <option value="2nd">2nd</option>
             <option value="3rd">3rd</option>
@@ -72,7 +87,9 @@ const Filters = () => {
             onChange={handleFilterChange}
             defaultValue={searchParams.get("sec") || ""}
           >
-            <option value="">All</option>
+            <option value="" disabled>
+              Select
+            </option>
             <option value="A">A</option>
             <option value="B">B</option>
             <option value="C">C</option>
@@ -88,9 +105,18 @@ const Filters = () => {
             onChange={handleFilterChange}
             defaultValue={searchParams.get("course") || ""}
           >
-            <option value="">All</option>
+            <option value="" disabled>
+              Select
+            </option>
           </select>
         </div>
+        <button
+          type="button"
+          className="w-24 rounded border border-rose-200 bg-rose-50 px-2 py-1 text-sm font-semibold text-rose-600 shadow-inner hover:bg-rose-100 hover:shadow-sm"
+          onClick={clearFilters}
+        >
+          Clear
+        </button>
       </form>
     </div>
   );

@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
-const DATABASE_URL = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!DATABASE_URL) {
+if (!MONGODB_URI) {
   throw new Error(
-    "Please define the DATABASE_URL environment variable inside .env.local",
+    "Please define the MONGODB_URI environment variable inside .env.local",
   );
 }
 
@@ -16,26 +16,24 @@ if (!cached) {
 
 async function dbConnect() {
   if (cached.conn) {
-    console.log("Connected from previous instance");
     return cached.conn;
   }
-
   if (!cached.promise) {
     const opts = {
-      autoIndex: true,
+      bufferCommands: false,
     };
-
-    const mongooseInstance = new mongoose.Mongoose();
-
-    cached.promise = mongooseInstance
-      .connect(DATABASE_URL, opts)
-      .then((mongoose) => {
-        return mongoose;
-      });
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+      console.log("Db connected");
+      return mongoose;
+    });
+  }
+  try {
+    cached.conn = await cached.promise;
+  } catch (e) {
+    cached.promise = null;
+    throw e;
   }
 
-  cached.conn = await cached.promise;
-  console.log("Newly connected");
   return cached.conn;
 }
 
