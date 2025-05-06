@@ -1,7 +1,8 @@
 import { fetchCourses } from "@/app/lib/data";
 import Link from "next/link";
-import { FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import { FaEdit, FaPlus } from "react-icons/fa";
+import { MdDelete, MdFilterAlt } from "react-icons/md";
+import { RiSearchLine } from "react-icons/ri";
 
 const CoursesPage = async ({ searchParams }) => {
   const filters = {
@@ -13,131 +14,207 @@ const CoursesPage = async ({ searchParams }) => {
   const courses = await fetchCourses(filters);
 
   return (
-    <div>
-      <div className="header flex items-center justify-between rounded-b-md bg-blue-500 px-4 py-2 text-white">
-        <h1 className="font-semibold">Manage Students</h1>
-        <div className="buttons">
-          <Link
-            href="/admin/dashboard/courses/add-course"
-            className="rounded bg-white px-3 py-1 text-sm font-medium text-blue-600 shadow-inner hover:bg-gray-200 hover:shadow"
-          >
-            + Add Course
-          </Link>
-        </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="header sticky top-0 flex items-center justify-between rounded-b-md bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 text-white shadow-lg">
+        <h1 className="text-xl font-bold">Manage Courses</h1>
+        <Link
+          href="/admin/dashboard/courses/add-course"
+          className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow transition hover:bg-blue-50"
+        >
+          <FaPlus />
+          Add Course
+        </Link>
       </div>
-      <div className="sticky top-0 z-50 h-2 w-full bg-white"></div>
-      <div className="flex flex-col gap-5 xl:flex-row">
-        <div className="border p-2 filter xl:w-64">
-          <h2 className="mb-2 border-b pb-2 font-bold">Filter</h2>
-          <form className="flex flex-row flex-wrap justify-between gap-3 text-sm md:text-base xl:flex-col">
-            <div className="group flex items-center justify-between gap-2">
-              <label htmlFor="dept">Department:</label>
+
+      <div className="my-4 px-4">
+        {/* Filter Section */}
+        <div className="mb-6 rounded-xl border border-blue-200 bg-white p-4 shadow-sm">
+          <div className="flex items-center justify-between">
+            <h2 className="flex items-center gap-2 text-lg font-semibold text-blue-800">
+              <MdFilterAlt className="text-xl" />
+              Filter Courses
+            </h2>
+            <button className="flex items-center gap-1 rounded-lg bg-blue-100 px-3 py-1 text-sm font-medium text-blue-600">
+              <RiSearchLine />
+              Search
+            </button>
+          </div>
+
+          <form className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div className="form-group">
+              <label className="form-label">Department</label>
               <select
                 name="dept"
                 id="dept"
-                className="w-32 rounded border px-2 py-1 text-sm outline-none"
+                className="form-input"
+                defaultValue={filters.dept}
               >
-                <option value="">All</option>
-                <option value="CSE">CSE</option>
-                <option value="EEE">EEE</option>
-                <option value="Civil">Civil</option>
-                <option value="Mechanical">Mechanical</option>
+                <option value="">All Departments</option>
+                <option value="CSE">Computer Science</option>
+                <option value="EEE">Electrical Engineering</option>
+                <option value="Civil">Civil Engineering</option>
+                <option value="Mechanical">Mechanical Engineering</option>
                 <option value="English">English</option>
-                <option value="BBA">BBA</option>
+                <option value="BBA">Business Administration</option>
               </select>
             </div>
-            <div className="group flex items-center justify-between gap-2">
-              <label htmlFor="sem">Semester:</label>
+
+            <div className="form-group">
+              <label className="form-label">Semester</label>
               <select
                 name="sem"
                 id="sem"
-                className="w-32 rounded border px-2 py-1 text-sm outline-none"
+                className="form-input"
+                defaultValue={filters.sem}
               >
-                <option value="">All</option>
-                <option value="1st">1st</option>
-                <option value="2nd">2nd</option>
-                <option value="3rd">3rd</option>
-                <option value="4th">4th</option>
-                <option value="5th">5th</option>
-                <option value="6th">6th</option>
-                <option value="7th">7th</option>
-                <option value="8th">8th</option>
+                <option value="">All Semesters</option>
+                <option value="1st">1st Semester</option>
+                <option value="2nd">2nd Semester</option>
+                <option value="3rd">3rd Semester</option>
+                <option value="4th">4th Semester</option>
+                <option value="5th">5th Semester</option>
+                <option value="6th">6th Semester</option>
+                <option value="7th">7th Semester</option>
+                <option value="8th">8th Semester</option>
               </select>
             </div>
-            <div className="group flex items-center justify-between gap-2">
-              <label htmlFor="instructor">Instructor:</label>
+
+            <div className="form-group">
+              <label className="form-label">Instructor</label>
               <select
                 name="instructor"
                 id="instructor"
-                className="w-32 rounded border px-2 py-1 text-sm outline-none"
+                className="form-input"
+                defaultValue={filters.instructor}
               >
-                <option value="">All</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-                <option value="D">D</option>
-                <option value="E">E</option>
+                <option value="">All Instructors</option>
+                <option value="Dr. Smith">Dr. Smith</option>
+                <option value="Prof. Johnson">Prof. Johnson</option>
+                <option value="Dr. Williams">Dr. Williams</option>
+                <option value="Prof. Brown">Prof. Brown</option>
+                <option value="Dr. Davis">Dr. Davis</option>
               </select>
             </div>
           </form>
         </div>
-        <div className="flex flex-grow flex-col gap-5">
+
+        {/* Courses Table */}
+        <div className="rounded-xl border border-blue-200 bg-white p-6 shadow-sm">
           {courses?.length === 0 ? (
-            <div className="">
-              <p>No courses Found!</p>
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <h3 className="mb-2 text-lg font-medium text-gray-700">
+                No Courses Found
+              </h3>
+              <p className="text-gray-500">
+                Try adjusting your filters or add a new course
+              </p>
+              <Link
+                href="/admin/dashboard/courses/add-course"
+                className="mt-4 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+              >
+                <FaPlus />
+                Add New Course
+              </Link>
             </div>
           ) : (
-            <table className="w-full border text-sm md:text-base">
-              <thead>
-                <tr className="border">
-                  <th className="border p-2">SL</th>
-                  <th className="border py-2">Dept.</th>
-                  <th className="break-all border py-2">Semester</th>
-                  <th className="border py-2">Course Code</th>
-                  <th className="border py-2">Course Name</th>
-                  <th className="border py-2">Instructor</th>
-                  <th className="border py-2">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {courses?.length > 0 &&
-                  courses.map((course, index) => (
-                    <tr key={course._id} className="border text-center">
-                      <td className="border p-1">{index + 1}</td>
-                      <td className="border p-1">{course.dept}</td>
-                      <td className="border p-1">{course.sem}</td>
-                      <td className="border p-1">{course.code}</td>
-                      <td className="border p-1">{course.title}</td>
-                      <td className="border p-1">{course.instructor}</td>
-                      <td className="border p-1">
-                        <div className="button_group flex flex-wrap items-center justify-center gap-2">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[800px]">
+                <thead className="bg-blue-50">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-blue-800">
+                      #
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-blue-800">
+                      Department
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-blue-800">
+                      Semester
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-blue-800">
+                      Code
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-blue-800">
+                      Course Name
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-blue-800">
+                      Instructor
+                    </th>
+                    <th className="px-4 py-3 text-center text-sm font-medium text-blue-800">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {courses.map((course, index) => (
+                    <tr key={course._id} className="hover:bg-gray-50">
+                      <td className="whitespace-nowrap px-4 py-3 text-sm text-gray-700">
+                        {index + 1}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3 text-sm font-medium text-gray-700">
+                        {course.dept}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3 text-sm text-gray-700">
+                        {course.sem}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3 text-sm font-medium text-blue-600">
+                        {course.code}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-700">
+                        {course.title}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3 text-sm text-gray-700">
+                        {course.instructor}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3 text-sm text-gray-700">
+                        <div className="flex justify-center gap-2">
                           <Link
-                            href={`/admin/courses/update-student?_id=${course._id}`}
-                            className="flex w-max rounded border border-orange-300 bg-orange-100 p-1 font-medium text-orange-600 hover:bg-orange-600 hover:text-white"
+                            href={`/admin/dashboard/courses/update-course?_id=${course._id}`}
+                            className="rounded-lg border border-blue-200 bg-blue-50 p-2 text-blue-600 transition hover:bg-blue-100"
+                            title="Edit"
                           >
-                            <FaEdit className="text-lg" />
+                            <FaEdit className="h-4 w-4" />
                           </Link>
                           <Link
-                            href={`/admin/courses/delete-student?_id=${course._id}`}
-                            className="flex w-max rounded border border-rose-300 bg-red-100 p-1 font-medium text-rose-600 hover:bg-rose-600 hover:text-white"
+                            href={`/admin/dashboard/courses/delete-course?_id=${course._id}`}
+                            className="rounded-lg border border-red-200 bg-red-50 p-2 text-red-600 transition hover:bg-red-100"
+                            title="Delete"
                           >
-                            <MdDelete className="text-lg" />
+                            <MdDelete className="h-4 w-4" />
                           </Link>
                         </div>
                       </td>
                     </tr>
                   ))}
-              </tbody>
-            </table>
+                </tbody>
+              </table>
+            </div>
           )}
-          <div className="pagination text-center">
-            <button
-              type="button"
-              className="rounded border bg-gray-300 px-3 py-2"
-            >
-              Pagination here
-            </button>
-          </div>
+
+          {/* Pagination */}
+          {courses?.length > 0 && (
+            <div className="mt-6 flex items-center justify-between">
+              <div className="text-sm text-gray-500">
+                Showing <span className="font-medium">1</span> to{" "}
+                <span className="font-medium">10</span> of{" "}
+                <span className="font-medium">20</span> courses
+              </div>
+              <div className="flex gap-2">
+                <button className="rounded-lg border border-gray-300 bg-white px-3 py-1 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                  Previous
+                </button>
+                <button className="rounded-lg border border-blue-500 bg-blue-50 px-3 py-1 text-sm font-medium text-blue-600">
+                  1
+                </button>
+                <button className="rounded-lg border border-gray-300 bg-white px-3 py-1 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                  2
+                </button>
+                <button className="rounded-lg border border-gray-300 bg-white px-3 py-1 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

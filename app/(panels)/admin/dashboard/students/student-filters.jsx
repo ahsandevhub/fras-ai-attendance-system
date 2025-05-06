@@ -1,6 +1,14 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { FaFilter, FaRedo } from "react-icons/fa";
+import { MdOutlineListAlt, MdOutlineSort } from "react-icons/md";
+import {
+  RiBuilding2Line,
+  RiCalendarLine,
+  RiGroupLine,
+  RiIdCardLine,
+} from "react-icons/ri";
 
 const StudentFilters = () => {
   const searchParams = useSearchParams();
@@ -16,7 +24,6 @@ const StudentFilters = () => {
     sort: searchParams.get("sort")?.toString() || "",
   };
 
-  // Handle the change for each input
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     const params = new URLSearchParams(searchParams);
@@ -31,118 +38,141 @@ const StudentFilters = () => {
   };
 
   const handleReset = () => {
-    // Create a new URLSearchParams instance with no parameters
-    const params = new URLSearchParams();
-
-    // Update the URL with no parameters
-    replace(`${pathname}?${params.toString()}`);
+    replace(pathname);
   };
 
   return (
-    <div className="sticky top-2 h-max border bg-white p-2 filter xl:w-64">
-      <div className="mb-2 flex items-center justify-between border-b pb-2">
-        <h2 className="font-bold">Filter</h2>
+    <div className="my-4 flex-none rounded-xl border border-blue-200 bg-white p-4 shadow-sm">
+      <div className="mb-4 flex items-center justify-between border-b border-gray-200 pb-3">
+        <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-800">
+          <FaFilter className="text-blue-600" />
+          Filter Students
+        </h2>
         <button
-          type="button"
           onClick={handleReset}
-          className="rounded bg-gray-200 px-3 py-1 text-sm hover:bg-gray-300"
+          className="flex items-center gap-1 rounded-lg bg-gray-100 px-3 py-1.5 text-sm font-medium text-gray-600 transition hover:bg-gray-200"
         >
+          <FaRedo className="text-xs" />
           Reset
         </button>
       </div>
-      <form className="flex flex-row flex-wrap justify-between gap-3 text-sm md:text-base xl:flex-col">
-        <div className="group flex items-center justify-between gap-2">
-          <label htmlFor="sort">Sort:</label>
+
+      <div className="flex justify-between gap-4">
+        {/* Sort Filter */}
+        <div className="flex w-full flex-col gap-1">
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-600">
+            <MdOutlineSort className="text-base text-blue-500" />
+            Sort Order
+          </label>
           <select
             name="sort"
-            id="sort"
-            defaultValue={filters.sort}
+            value={filters.sort}
             onChange={handleFilterChange}
-            className="w-32 rounded border px-2 py-1 text-sm outline-none"
+            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
-            <option value="">FIFO</option>
-            <option value="desc">LIFO</option>
+            <option value="">First In, First Out</option>
+            <option value="desc">Last In, First Out</option>
           </select>
         </div>
-        <div className="group flex items-center justify-between gap-2">
-          <label htmlFor="limit">Show:</label>
+
+        {/* Items Per Page */}
+        <div className="flex w-full flex-col gap-1">
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-600">
+            <MdOutlineListAlt className="text-base text-blue-500" />
+            Items Per Page
+          </label>
           <select
             name="limit"
-            id="limit"
-            defaultValue={filters.limit}
+            value={filters.limit}
             onChange={handleFilterChange}
-            className="w-32 rounded border px-2 py-1 text-sm outline-none"
+            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
-            <option value="50">50/page</option>
-            <option value="100">100/page</option>
+            <option value="50">50 items</option>
+            <option value="100">100 items</option>
           </select>
         </div>
-        <div className="group flex items-center justify-between gap-2">
-          <label htmlFor="dept">Department:</label>
+
+        {/* Department Filter */}
+        <div className="flex w-full flex-col gap-1">
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-600">
+            <RiBuilding2Line className="text-base text-blue-500" />
+            Department
+          </label>
           <select
             name="dept"
-            id="dept"
-            defaultValue={filters.dept}
+            value={filters.dept}
             onChange={handleFilterChange}
-            className="w-32 rounded border px-2 py-1 text-sm outline-none"
+            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
-            <option value="">All</option>
-            <option value="CSE">CSE</option>
-            <option value="EEE">EEE</option>
+            <option value="">All Departments</option>
+            <option value="CSE">Computer Science & Engineering</option>
+            <option value="EEE">Electrical</option>
             <option value="Civil">Civil</option>
             <option value="Mechanical">Mechanical</option>
             <option value="English">English</option>
-            <option value="BBA">BBA</option>
+            <option value="BBA">Business Admin</option>
           </select>
         </div>
-        <div className="group flex items-center justify-between gap-2">
-          <label htmlFor="sem">Semester:</label>
+
+        {/* Semester Filter */}
+        <div className="flex w-full flex-col gap-1">
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-600">
+            <RiCalendarLine className="text-base text-blue-500" />
+            Semester
+          </label>
           <select
             name="sem"
-            id="sem"
-            defaultValue={filters.sem}
+            value={filters.sem}
             onChange={handleFilterChange}
-            className="w-32 rounded border px-2 py-1 text-sm outline-none"
+            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
-            <option value="">All</option>
-            <option value="1st">1st</option>
-            <option value="2nd">2nd</option>
-            <option value="3rd">3rd</option>
-            <option value="4th">4th</option>
-            <option value="5th">5th</option>
-            <option value="6th">6th</option>
-            <option value="7th">7th</option>
-            <option value="8th">8th</option>
+            <option value="">All Semesters</option>
+            <option value="1st">1st Semester</option>
+            <option value="2nd">2nd Semester</option>
+            <option value="3rd">3rd Semester</option>
+            <option value="4th">4th Semester</option>
+            <option value="5th">5th Semester</option>
+            <option value="6th">6th Semester</option>
+            <option value="7th">7th Semester</option>
+            <option value="8th">8th Semester</option>
           </select>
         </div>
-        <div className="group flex items-center justify-between gap-2">
-          <label htmlFor="sec">Section:</label>
+
+        {/* Section Filter */}
+        <div className="flex w-full flex-col gap-1">
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-600">
+            <RiGroupLine className="text-base text-blue-500" />
+            Section
+          </label>
           <select
             name="sec"
-            id="sec"
-            defaultValue={filters.sec}
+            value={filters.sec}
             onChange={handleFilterChange}
-            className="w-32 rounded border px-2 py-1 text-sm outline-none"
+            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           >
-            <option value="">All</option>
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
-            <option value="D">D</option>
+            <option value="">All Sections</option>
+            <option value="A">Section A</option>
+            <option value="B">Section B</option>
+            <option value="C">Section C</option>
+            <option value="D">Section D</option>
           </select>
         </div>
-        <div className="group flex items-center justify-between gap-2">
-          <label htmlFor="id">ID:</label>
+
+        {/* ID Search */}
+        <div className="flex w-full flex-col gap-1">
+          <label className="flex items-center gap-2 text-sm font-medium text-gray-600">
+            <RiIdCardLine className="text-base text-blue-500" />
+            Student ID
+          </label>
           <input
             name="id"
-            id="id"
-            defaultValue={filters.id}
+            value={filters.id}
             onChange={handleFilterChange}
-            className="w-32 rounded border px-2 py-1 text-sm outline-none"
-            placeholder="Search ID..."
+            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            placeholder="Enter student ID..."
           />
         </div>
-      </form>
+      </div>
     </div>
   );
 };

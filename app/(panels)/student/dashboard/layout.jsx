@@ -55,7 +55,7 @@ const StudentLayout = async ({ children }) => {
           colors={colors}
         />
       </aside>
-      <main className="mr-3 flex-grow overflow-auto">
+      <main className="flex-grow overflow-auto pr-3">
         <NextTopLoader color="#f59e0b" height={4} showSpinner={false} />
         {children}
       </main>
