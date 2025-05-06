@@ -24,6 +24,7 @@ const Page = async () => {
               src={teacher.photo}
               height={250}
               width={250}
+              alt="Teacher"
               className="h-32 w-auto rounded border border-gray-200 bg-white p-1"
             />
           </div>

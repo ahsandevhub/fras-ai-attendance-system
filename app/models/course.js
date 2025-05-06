@@ -1,5 +1,5 @@
 // models/student.js
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 // Define the Student schema
 const courseSchema = new mongoose.Schema({
@@ -27,9 +27,9 @@ const courseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-})
+});
 
 // Check if the model already exists to prevent redefinition
-const Course = mongoose.models.Course || mongoose.model('Course', courseSchema)
+const Course = mongoose.models.Course || mongoose.model("Course", courseSchema);
 
-export default Course
+export default Course;

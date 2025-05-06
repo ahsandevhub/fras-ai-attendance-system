@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 
 const Now = () => {
-  // Local date and time state
   const [currentTime, setCurrentTime] = useState({
     time: "",
     day: "",
@@ -11,14 +10,17 @@ const Now = () => {
   });
 
   useEffect(() => {
-    // Function to update date and time
     const updateTime = () => {
       const now = new Date();
 
-      // Get local date, time, and day of the week
+      // Format time
       const time = now.toLocaleTimeString();
-      const date = now.toLocaleDateString();
+
+      // Format date as 1-Nov-2024
       const day = now.toLocaleDateString(undefined, { weekday: "long" });
+      const date = `${now.getDate()}-${now.toLocaleString("default", {
+        month: "short",
+      })}-${now.getFullYear()}`;
 
       setCurrentTime({
         time,
@@ -27,13 +29,10 @@ const Now = () => {
       });
     };
 
-    // Initial call to set the time
     updateTime();
 
-    // Set interval to update every second
     const intervalId = setInterval(updateTime, 1000);
 
-    // Cleanup the interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
 

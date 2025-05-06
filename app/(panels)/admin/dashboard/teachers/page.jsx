@@ -9,21 +9,22 @@ const page = async () => {
 
   return (
     <div>
-      <div className="header mb-4 flex items-center justify-between border-b pb-2">
-        <h1 className="text-lg font-medium text-blue-600">Manage Teachers</h1>
+      <div className="header flex items-center justify-between rounded-b-md bg-blue-500 px-4 py-2 text-white">
+        <h1 className="font-semibold">Manage Teachers</h1>
         <div className="buttons">
           <Link
             href="/admin/dashboard/teachers/add-teacher"
-            className="rounded border border-blue-300 bg-sky-200 px-3 py-1 text-sm font-medium text-blue-600 hover:bg-blue-600 hover:text-white"
+            className="rounded bg-white px-3 py-1 text-sm font-medium text-blue-600 shadow-inner hover:bg-gray-200 hover:shadow"
           >
-            + Add Teacher
+            {"+ Add Teacher"}
           </Link>
         </div>
       </div>
-      <div className="flex flex-col gap-5 xl:flex-row">
-        <div className="border p-2 filter xl:w-64">
+      <div className="sticky top-0 z-50 h-2 w-full bg-white"></div>
+      <div className="relative flex flex-col gap-4 xl:flex-row">
+        <div className="sticky top-2 h-max border bg-white p-2 filter xl:w-64">
           <h2 className="mb-2 border-b pb-2 font-bold">Filter</h2>
-          {/* <form
+          <form
             action=""
             className="flex flex-row flex-wrap justify-between gap-3 text-sm md:text-base xl:flex-col"
           >
@@ -33,8 +34,8 @@ const page = async () => {
                 name="dept"
                 id="dept"
                 className="w-32 rounded border px-2 py-1 text-sm outline-none"
-                onChange={handleFilterChange}
-                value={filters.dept}
+                // onChange={handleFilterChange}
+                // value={filters.dept}
               >
                 <option value="">All</option>
                 <option value="CSE">CSE</option>
@@ -45,27 +46,30 @@ const page = async () => {
                 <option value="BBA">BBA</option>
               </select>
             </div>
-          </form> */}
+          </form>
         </div>
-        <div className="flex max-h-[calc(100vh-230px)] flex-grow flex-col gap-5 overflow-y-auto xl:max-h-[calc(100vh-125px)]">
+        <div className="flex flex-grow flex-col gap-5">
           {teachers.length > 0 ? (
-            <table className="w-full border text-sm md:text-base">
-              <thead className="sticky -top-1 z-10 border bg-gray-100 shadow">
-                <tr className="border">
-                  <th className="border p-2">SL</th>
-                  <th className="border py-2">Photo</th>
-                  <th className="border py-2">Name</th>
-                  <th className="border py-2">Dept.</th>
-                  <th className="break-all border py-2">Designation</th>
-                  <th className="border py-2">Tag</th>
-                  <th className="border py-2">Action</th>
+            <table className="relative w-full border-separate border-spacing-0 text-sm md:text-base">
+              <thead>
+                <tr className="sticky top-2 bg-gray-100 *:border-b-2 *:border-r *:border-t *:border-gray-300 *:py-2 first:*:border-l">
+                  <th>SL</th>
+                  <th>Photo</th>
+                  <th>Name</th>
+                  <th>Dept.</th>
+                  <th className="break-all">Designation</th>
+                  <th>Tag</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                 {teachers?.map((teacher, index) => (
-                  <tr key={index} className="border text-center">
-                    <td className="border p-1">{index + 1}</td>
-                    <td className="border p-1">
+                  <tr
+                    key={index}
+                    className="text-center *:border-b *:border-r *:border-gray-300 *:p-1 first:*:border-l odd:bg-white even:bg-gray-50"
+                  >
+                    <td>{index + 1}</td>
+                    <td>
                       <Image
                         src={teacher.photo}
                         width={50}
@@ -74,11 +78,11 @@ const page = async () => {
                         className="mx-auto h-12 w-12 object-cover"
                       />
                     </td>
-                    <td className="border p-1">{teacher.name}</td>
-                    <td className="border p-1">{teacher.dept}</td>
-                    <td className="border p-1">{teacher.designation}</td>
-                    <td className="border p-1">{teacher.tag}</td>
-                    <td className="border p-1">
+                    <td>{teacher.name}</td>
+                    <td>{teacher.dept}</td>
+                    <td>{teacher.designation}</td>
+                    <td>{teacher.tag}</td>
+                    <td>
                       <div className="button_group flex flex-wrap items-center justify-center gap-2">
                         <Link
                           href={`/admin/dashboard/teachers/update-teacher?_id=${teacher._id}`}

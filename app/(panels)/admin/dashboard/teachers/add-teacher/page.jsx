@@ -5,18 +5,19 @@ import TeacherPhoto from "./teacher-photo";
 const Page = () => {
   return (
     <div>
-      <div className="header mb-4 flex items-center justify-between border-b pb-2">
-        <h1 className="text-lg font-medium text-blue-600">Add Teacher</h1>
+      <div className="header flex items-center justify-between rounded-b-md bg-blue-500 px-4 py-2 text-white">
+        <h1 className="font-semibold">Add Teacher</h1>
         <div className="buttons">
           <Link
             href="/admin/dashboard/teachers"
-            className="rounded border border-blue-300 bg-sky-200 px-3 py-1 text-sm font-medium text-blue-600 hover:bg-blue-600 hover:text-white"
+            className="rounded bg-white px-3 py-1 text-sm font-medium text-blue-600 shadow-inner hover:bg-gray-200 hover:shadow"
           >
             {"< Go Back"}
           </Link>
         </div>
       </div>
-      <div className="container mx-auto max-w-3xl rounded-lg border bg-gray-50 p-5">
+      <div className="sticky top-0 z-50 h-2 w-full bg-white"></div>
+      <div className="rounded-lg border bg-gray-50 p-5">
         <h3 className="mb-4 font-medium text-blue-600">Teacher Details Form</h3>
         <form action={addTeacher} className="flex flex-col gap-5">
           <div className="input_items flex flex-col gap-5">

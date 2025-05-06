@@ -19,8 +19,6 @@ const Attendance = ({ students, labels, filters }) => {
   const [isAllImageLoaded, setAllImageLoaded] = useState(false);
   const [labeledFaceDescriptors, setLabeledFaceDescriptors] = useState([]);
 
-  console.log(labels);
-
   const loadModels = useCallback(async () => {
     if (!isModelLoading) return;
     setIsModelLoading(true);
@@ -191,9 +189,15 @@ const Attendance = ({ students, labels, filters }) => {
                       <div
                         className={`flex aspect-video items-center justify-center ${labels.length <= 0 ? "cursor-not-allowed" : ""}`}
                       >
-                        <span className="h-max rounded border-2 border-dotted border-blue-500 px-8 py-4 text-lg font-medium text-blue-600">
-                          Take attendance with photo!
-                        </span>
+                        {labels.length <= 0 ? (
+                          <span className="h-max rounded border-2 border-dotted border-orange-500 px-8 py-4 text-lg font-medium text-orange-600">
+                            Please select dept, sem, sec and course!
+                          </span>
+                        ) : (
+                          <span className="h-max rounded border-2 border-dotted border-blue-500 px-8 py-4 text-lg font-medium text-blue-600">
+                            Take attendance with photo!
+                          </span>
+                        )}
                       </div>
                     )}
                   </label>
@@ -255,17 +259,18 @@ const Attendance = ({ students, labels, filters }) => {
                           </div>
                         ))}
                     </div>
-                    <button
+                    {/* <button
                       type="button"
                       className="block w-full cursor-not-allowed rounded-md bg-blue-500 px-5 py-3 text-white hover:bg-gray-300"
                     >
                       + Add new image
-                    </button>
+                    </button> */}
                   </div>
                 )}
               </div>
             </div>
             <div className="right flex-grow">
+              <p className="mb-2 rounded border bg-gray-50 p-2 text-sm font-medium">{`${filters.dept ? filters.dept : "Department is not selected"} > ${filters.sem ? filters.sem : "Semester is not selected"} > ${filters.sec ? filters.sec : "Section is not selected"} > ${filters.course ? filters.course : "Course is not selected"}`}</p>
               {students.length > 0 ? (
                 <div className="">
                   <table className="relative w-full border-separate border-spacing-0 text-sm md:text-base">
@@ -317,7 +322,7 @@ const Attendance = ({ students, labels, filters }) => {
                           <td className="border-b border-r border-gray-300 p-1">
                             <input
                               type="checkbox"
-                              className="form-checkbox h-4 w-4 text-blue-600"
+                              className="form-checkbox h-5 w-5 text-blue-600"
                               defaultChecked={detectedIdArray.includes(
                                 student.id,
                               )}
@@ -327,7 +332,8 @@ const Attendance = ({ students, labels, filters }) => {
                       ))}
                     </tbody>
                   </table>
-                  <div className="button_group my-5 flex justify-end">
+                  <div className="button_group my-5 flex items-center justify-between">
+                    <p>Total {5} students are marked as present!</p>
                     <button
                       type="button"
                       className="flex items-center gap-2 rounded-md bg-blue-500 px-5 py-2 text-sm text-white hover:bg-blue-600 hover:shadow-md"

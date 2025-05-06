@@ -8,19 +8,19 @@ const Page = async ({ searchParams }) => {
   const removeStudentWithId = removeStudent.bind(null, searchParams._id);
 
   return (
-    <div>
-      <div className="header mb-4 flex items-center justify-between border-b pb-2">
-        <h1 className="text-lg font-medium text-rose-600">Delete Student</h1>
+    <div className="space-y-3">
+      <div className="header flex items-center justify-between rounded-b-md bg-blue-500 px-4 py-2 text-white">
+        <h1 className="font-semibold">Delete Students</h1>
         <div className="buttons">
           <Link
             href="/admin/dashboard/students"
-            className="rounded border border-blue-300 bg-sky-200 px-3 py-1 text-sm font-medium text-blue-600 hover:bg-blue-600 hover:text-white"
+            className="rounded bg-white px-3 py-1 text-sm font-medium text-blue-600 shadow-inner hover:bg-gray-200 hover:shadow"
           >
             {"< Go Back"}
           </Link>
         </div>
       </div>
-      <div className="container mx-auto max-w-3xl rounded-lg border bg-gray-50 p-5">
+      <div className="rounded-lg border bg-gray-50 p-5">
         <h3 className="mb-4 font-medium text-blue-600">Student Details:</h3>
 
         <form action={removeStudentWithId} className="mt-5 flex flex-col gap-8">

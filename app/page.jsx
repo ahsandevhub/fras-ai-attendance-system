@@ -72,7 +72,7 @@ function App() {
             </p>
           </div>
           <Suspense fallback={<div>YouTube loading...</div>}>
-            <div className="image mx-auto aspect-video max-w-[850px] overflow-hidden rounded-lg border-2 border-[#8D97F920] transition-all duration-300 hover:shadow-[0_0_20px_5px_rgba(150,50,200,0.75)] sm:border-[15px]">
+            <div className="image mx-auto max-w-[850px] overflow-hidden rounded-lg border-2 border-[#8D97F920] transition-all duration-300 hover:shadow-[0_0_20px_5px_rgba(150,50,200,0.75)] sm:border-[15px]">
               <YoutubeEmbed />
             </div>
           </Suspense>

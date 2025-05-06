@@ -56,10 +56,15 @@ const AdminLayout = async ({ children }) => {
   return (
     <div className="flex h-screen flex-col gap-4 md:flex-row md:overflow-hidden">
       <aside className="flex-none">
-        <SideNav links={links} text="Admin Panel" colors={colors} />
+        <SideNav
+          homepage="/admin/dashboard"
+          links={links}
+          text="Admin Panel"
+          colors={colors}
+        />
       </aside>
       <main className="flex-grow overflow-auto pr-3">
-        <NextTopLoader color="#3b82f6" height={4} showSpinner={false} />
+        <NextTopLoader color="#f59e0b" height={4} showSpinner={false} />
         {children}
       </main>
     </div>

@@ -158,7 +158,7 @@ export async function fetchAllTeachers(dept) {
     const query = {};
     if (dept) query.dept = dept;
 
-    const teachers = await Teacher.find(query).lean().sort({ _id: -1 });
+    const teachers = await Teacher.find(query).lean().sort({ _id: 1 });
 
     if (!teachers) {
       throw new Error("No teacher found!");
@@ -197,7 +197,7 @@ export async function fetchAllTeacherName(dept) {
   }
 }
 
-export async function fetchCourses(dept, sem, instructor) {
+export async function fetchCourses({ dept, sem, instructor }) {
   try {
     await dbConnect();
     const query = {};
@@ -227,6 +227,8 @@ export async function fetchCourses(dept, sem, instructor) {
 
     return coursesWithInstructorNames;
   } catch (error) {
+    console.log("Failed to fetch courses: ", error);
+
     throw new Error("Failed to fetch courses!");
   }
 }

@@ -10,7 +10,7 @@ import {
 } from "react-icons/md";
 import RenderSideNavLink from "./RenderSideNavLink";
 
-const SideNav = ({ links, text, colors }) => {
+const SideNav = ({ links, text, colors, homepage }) => {
   const [showSideNav, setShowSideNav] = useState(false);
 
   return (
@@ -26,7 +26,7 @@ const SideNav = ({ links, text, colors }) => {
     >
       <Link
         className={`mb-2 flex h-20 items-end justify-start rounded-b-md ${colors.bg} p-4 md:h-40`}
-        href="/"
+        href={homepage}
       >
         <div className="w-32 text-white md:w-40">
           <span className="text-xl font-medium">{text}</span>

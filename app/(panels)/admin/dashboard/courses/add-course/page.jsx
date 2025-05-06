@@ -1,89 +1,92 @@
-'use client'
+"use client";
 
-import { addCourse } from '@/app/lib/actions'
-import { fetchAllTeacherName } from '@/app/lib/data'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { addCourse } from "@/app/lib/actions";
+import { fetchAllTeacherName } from "@/app/lib/data";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const Page = () => {
-  const router = useRouter()
-  const [teacherNames, setTeacherNames] = useState([])
+  const router = useRouter();
+  const [teacherNames, setTeacherNames] = useState([]);
   const [formData, setFormData] = useState({
-    dept: '',
-    sem: '',
-    title: '',
-    code: '',
-    credit: '',
-    instructor: '',
-  })
-  const [queryDept, setQueryDept] = useState('')
+    dept: "",
+    sem: "",
+    title: "",
+    code: "",
+    credit: "",
+    instructor: "",
+  });
+  const [queryDept, setQueryDept] = useState("");
 
   useEffect(() => {
     const fetchTeacherNames = async () => {
       try {
-        const response = await fetchAllTeacherName(queryDept)
-        setTeacherNames(response)
-        console.log(response)
+        const response = await fetchAllTeacherName(queryDept);
+        setTeacherNames(response);
+        console.log(response);
       } catch (error) {
-        console.error('Error fetching teacher names:', error)
-        setTeacherNames([])
+        console.error("Error fetching teacher names:", error);
+        setTeacherNames([]);
       }
-    }
+    };
 
-    fetchTeacherNames()
-  }, [queryDept])
+    fetchTeacherNames();
+  }, [queryDept]);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })
-  }
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     try {
-      const result = await addCourse(formData)
+      const result = await addCourse(formData);
 
-      console.log(result.message)
+      console.log(result.message);
       toast.success(result.message, {
-        position: 'bottom-center',
+        position: "bottom-center",
         autoClose: 3000,
-      })
-      router.push('/admin/courses')
+      });
+      router.push("/admin/courses");
     } catch (error) {
-      console.error(error)
-      toast.error('Failed to add course.', {
-        position: 'bottom-center',
+      console.error(error);
+      toast.error("Failed to add course.", {
+        position: "bottom-center",
         autoClose: 3000,
-      })
+      });
     }
-  }
+  };
 
   return (
     <div>
-      <div className="header mb-4 flex items-center justify-between border-b pb-2">
-        <h1 className="text-lg font-medium text-blue-600">Add Course</h1>
+      <div className="header flex items-center justify-between rounded-b-md bg-blue-500 px-4 py-2 text-white">
+        <h1 className="font-semibold">Add Course</h1>
         <div className="buttons">
           <Link
-            href="/admin/courses"
-            className="rounded border border-blue-300 bg-sky-200 px-3 py-1 text-sm font-medium text-blue-600 hover:bg-blue-600 hover:text-white"
+            href="/admin/dashboard/courses"
+            className="rounded bg-white px-3 py-1 text-sm font-medium text-blue-600 shadow-inner hover:bg-gray-200 hover:shadow"
           >
-            {'< Go Back'}
+            {"< Go Back"}
           </Link>
         </div>
       </div>
-      <div className="container mx-auto max-w-3xl rounded-lg border bg-gray-50 p-5">
+      <div className="sticky top-0 z-50 h-2 w-full bg-white"></div>
+      <div className="rounded-lg border bg-gray-50 p-5">
         <h3 className="mb-4 font-medium text-blue-600">Course Details Form</h3>
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          <div className="selection_row grid grid-cols-3 gap-5">
-            <div className="group flex items-center gap-5">
-              <label htmlFor="dept">Department:</label>
+          <div className="input_items flex flex-col gap-5">
+            <div className="group flex items-center gap-8">
+              <label htmlFor="dept" className="w-32">
+                Department:
+              </label>
               <select
                 name="dept"
                 id="dept"
-                className="flex-grow rounded border px-2 py-1 text-sm outline-none"
+                className="flex-grow rounded border px-3 py-2 text-sm outline-none"
                 value={formData.dept}
                 onChange={handleInputChange}
                 required
@@ -99,12 +102,14 @@ const Page = () => {
                 <option value="BBA">BBA</option>
               </select>
             </div>
-            <div className="group flex items-center gap-5">
-              <label htmlFor="sem">Semester:</label>
+            <div className="group flex items-center gap-8">
+              <label htmlFor="sem" className="w-32">
+                Semester:
+              </label>
               <select
                 name="sem"
                 id="sem"
-                className="flex-grow rounded border px-2 py-1 text-sm outline-none"
+                className="flex-grow rounded border px-3 py-2 text-sm outline-none"
                 value={formData.sem}
                 onChange={handleInputChange}
                 required
@@ -122,8 +127,6 @@ const Page = () => {
                 <option value="8th">8th</option>
               </select>
             </div>
-          </div>
-          <div className="input_items flex flex-col gap-5">
             <div className="group flex items-center gap-8">
               <label htmlFor="title" className="w-32">
                 Course Title:
@@ -222,7 +225,7 @@ const Page = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
