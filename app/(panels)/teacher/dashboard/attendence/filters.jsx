@@ -39,7 +39,7 @@ const Filters = ({ courses }) => {
   };
 
   return (
-    <div className="my-4 rounded-xl border border-rose-200 bg-white p-4 shadow-sm">
+    <div className="rounded-xl border border-rose-200 bg-white p-4 shadow-sm">
       <div className="mb-4 flex items-center justify-between border-b border-gray-200 pb-3">
         <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-800">
           <FaFilter className="text-rose-600" />
