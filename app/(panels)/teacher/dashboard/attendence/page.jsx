@@ -19,6 +19,7 @@ const Page = async ({ searchParams }) => {
     dept: searchParams?.dept || "",
     sem: searchParams?.sem || "",
     sec: searchParams?.sec || "",
+    course: searchParams?.course || "",
   };
 
   let students = [];
@@ -32,7 +33,7 @@ const Page = async ({ searchParams }) => {
   let error = null;
 
   try {
-    courses = await fetchCourses({ instructor: teacher._id || "" });
+    courses = await fetchCourses({ ...filters, instructor: teacher._id || "" });
   } catch (err) {
     console.error("Failed to fetch courses:", err);
     error = "No courses found. Please ask admin to assign courses to you.";

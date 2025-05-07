@@ -5,6 +5,12 @@ import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { IoMdDoneAll } from "react-icons/io";
 import { IoWarningOutline } from "react-icons/io5";
+import {
+  RiBookLine,
+  RiBuilding2Line,
+  RiCalendarLine,
+  RiGroupLine,
+} from "react-icons/ri";
 import { TiDelete } from "react-icons/ti";
 import { VscLoading } from "react-icons/vsc";
 import Filters from "./filters";
@@ -265,10 +271,36 @@ const Attendance = ({ students, labels, filters, courses }) => {
 
             {/* Right Column - Student List */}
             <div className="rounded-xl border border-gray-200 bg-white shadow-sm">
-              <div className="border-b border-gray-200 p-4">
-                <p className="text-sm font-medium text-gray-700">
-                  {`${filters.dept || "Department not selected"} > ${filters.sem || "Semester not selected"} > ${filters.sec || "Section not selected"} > ${filters.course || "Course not selected"}`}
-                </p>
+              <div className="border-b border-gray-200 bg-gray-50 p-4">
+                <div className="flex flex-wrap items-center gap-2 text-sm">
+                  <span className="font-medium text-gray-600">Filters:</span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span
+                      className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${filters.dept ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-500"}`}
+                    >
+                      <RiBuilding2Line className="mr-1" />
+                      {filters.dept || "Department"}
+                    </span>
+                    <span
+                      className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${filters.sem ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-500"}`}
+                    >
+                      <RiCalendarLine className="mr-1" />
+                      {filters.sem || "Semester"}
+                    </span>
+                    <span
+                      className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${filters.sec ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-500"}`}
+                    >
+                      <RiGroupLine className="mr-1" />
+                      {filters.sec || "Section"}
+                    </span>
+                    <span
+                      className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${filters.course ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-500"}`}
+                    >
+                      <RiBookLine className="mr-1" />
+                      {filters.course || "Course"}
+                    </span>
+                  </div>
+                </div>
               </div>
 
               {students.length > 0 ? (
