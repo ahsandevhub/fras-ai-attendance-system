@@ -3,12 +3,12 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { useState } from "react";
-import { IoMdPower } from "react-icons/io";
 import {
   MdOutlineArrowBackIosNew,
   MdOutlineArrowForwardIos,
 } from "react-icons/md";
 import RenderSideNavLink from "./RenderSideNavLink";
+import SignoutButton from "./sign-out-buttons";
 
 const SideNav = ({ links, text, colors, homepage }) => {
   const [showSideNav, setShowSideNav] = useState(false);
@@ -40,20 +40,7 @@ const SideNav = ({ links, text, colors, homepage }) => {
           setShowSideNav={setShowSideNav}
         />
         <div className="h-auto w-full grow rounded-md border bg-gray-50"></div>
-        <form
-        // action={async () => {
-        //   "use server";
-        //   await adminSignOut();
-        // }}
-        >
-          <button
-            type="submit"
-            className={`flex h-[48px] w-full items-center gap-2 rounded-t-md border bg-gray-50 p-3 text-sm font-medium ${colors.hoverBg} hover:${colors.text} flex-none`}
-          >
-            <IoMdPower className="text-lg" />
-            <div className="">Sign Out</div>
-          </button>
-        </form>
+        <SignoutButton colors={colors} text={text} />
       </div>
       <button
         type="button"

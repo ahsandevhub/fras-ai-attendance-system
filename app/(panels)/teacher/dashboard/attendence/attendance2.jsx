@@ -323,9 +323,7 @@ const Attendance = ({ students, labels, filters }) => {
                             <input
                               type="checkbox"
                               className="form-checkbox h-5 w-5 text-blue-600"
-                              defaultChecked={detectedIdArray.includes(
-                                student.id,
-                              )}
+                              checked={detectedIdArray.includes(student.id)}
                             />
                           </td>
                         </tr>

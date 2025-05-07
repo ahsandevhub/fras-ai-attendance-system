@@ -1,121 +1,172 @@
+"use client";
+
 import { addTeacher } from "@/app/lib/actions";
 import Link from "next/link";
+import { useFormStatus } from "react-dom";
+import { FaArrowLeft, FaChalkboardTeacher } from "react-icons/fa";
+import {
+  RiBuilding2Line,
+  RiMailLine,
+  RiPhoneLine,
+  RiUserLine,
+  RiUserStarLine,
+} from "react-icons/ri";
 import TeacherPhoto from "./teacher-photo";
 
 const Page = () => {
+  const { pending } = useFormStatus();
+
   return (
-    <div>
-      <div className="header flex items-center justify-between rounded-b-md bg-blue-500 px-4 py-2 text-white">
-        <h1 className="font-semibold">Add Teacher</h1>
-        <div className="buttons">
-          <Link
-            href="/admin/dashboard/teachers"
-            className="rounded bg-white px-3 py-1 text-sm font-medium text-blue-600 shadow-inner hover:bg-gray-200 hover:shadow"
-          >
-            {"< Go Back"}
-          </Link>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="header sticky top-0 flex items-center justify-between rounded-b-md bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 text-white shadow-lg">
+        <div className="flex items-center gap-3">
+          <FaChalkboardTeacher className="text-2xl" />
+          <h1 className="text-xl font-bold">Add New Teacher</h1>
         </div>
+        <Link
+          href="/admin/dashboard/teachers"
+          className="flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow transition hover:bg-blue-50"
+        >
+          <FaArrowLeft />
+          Back to Teachers
+        </Link>
       </div>
-      <div className="sticky top-0 z-50 h-2 w-full bg-white"></div>
-      <div className="rounded-lg border bg-gray-50 p-5">
-        <h3 className="mb-4 font-medium text-blue-600">Teacher Details Form</h3>
-        <form action={addTeacher} className="flex flex-col gap-5">
-          <div className="input_items flex flex-col gap-5">
-            <div className="group flex items-center gap-8">
-              <label htmlFor="dept" className="w-32">
-                Department:
-              </label>
-              <select
-                name="dept"
-                id="dept"
-                className="flex-grow rounded border px-2 py-2 text-sm outline-none"
-                required
-                defaultValue={""}
-              >
-                <option value="" disabled>
-                  Select
-                </option>
-                <option value="CSE">CSE</option>
-                <option value="EEE">EEE</option>
-                <option value="Civil">Civil</option>
-                <option value="Mechanical">Mechanical</option>
-                <option value="English">English</option>
-                <option value="BBA">BBA</option>
-              </select>
+
+      <div className="my-4 px-4">
+        {/* Form Container */}
+        <div className="rounded-xl border border-blue-200 bg-white p-6 shadow-sm">
+          <h2 className="mb-6 flex items-center gap-2 border-b border-gray-200 pb-4 text-lg font-semibold text-blue-800">
+            <RiUserStarLine className="text-blue-500" />
+            Teacher Information
+          </h2>
+
+          <form action={addTeacher} className="space-y-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              {/* Department */}
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                  <RiBuilding2Line className="text-blue-500" />
+                  Department
+                </label>
+                <select
+                  name="dept"
+                  id="dept"
+                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  required
+                >
+                  <option value="" disabled>
+                    Select Department
+                  </option>
+                  <option value="CSE">Computer Science & Engineering</option>
+                  <option value="EEE">Electrical Engineering</option>
+                  <option value="Civil">Civil Engineering</option>
+                  <option value="Mechanical">Mechanical Engineering</option>
+                  <option value="English">English</option>
+                  <option value="BBA">Business Administration</option>
+                </select>
+              </div>
+
+              {/* Teacher Name */}
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                  <RiUserLine className="text-blue-500" />
+                  Full Name
+                </label>
+                <input
+                  name="name"
+                  id="name"
+                  type="text"
+                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="Enter teacher's full name"
+                  required
+                />
+              </div>
+
+              {/* Teacher's Tag */}
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                  <RiUserLine className="text-blue-500" />
+                  Teacher Tag
+                </label>
+                <input
+                  name="tag"
+                  id="tag"
+                  type="text"
+                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="Enter unique tag (e.g., T-001)"
+                  required
+                />
+              </div>
+
+              {/* Designation */}
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                  <RiUserStarLine className="text-blue-500" />
+                  Designation
+                </label>
+                <input
+                  name="designation"
+                  id="designation"
+                  type="text"
+                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="Enter designation (e.g., Professor)"
+                  required
+                />
+              </div>
+
+              {/* Phone Number */}
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                  <RiPhoneLine className="text-blue-500" />
+                  Phone Number
+                </label>
+                <input
+                  name="phone"
+                  id="phone"
+                  type="tel"
+                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="Enter phone number"
+                />
+              </div>
+
+              {/* Email Address */}
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                  <RiMailLine className="text-blue-500" />
+                  Email Address
+                </label>
+                <input
+                  name="email"
+                  id="email"
+                  type="email"
+                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="Enter email address"
+                />
+              </div>
+
+              {/* Photo Upload */}
+              <div className="space-y-2 md:col-span-2">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+                  <RiUserLine className="text-blue-500" />
+                  Profile Photo
+                </label>
+                <TeacherPhoto />
+              </div>
             </div>
-            <div className="group flex items-center gap-8">
-              <label htmlFor="name" className="w-32">
-                Teacher Name:
-              </label>
-              <input
-                name="name"
-                id="name"
-                type="text"
-                className="flex-grow rounded border px-3 py-2 text-sm outline-none"
-                placeholder="Enter name..."
-                required
-              />
-            </div>
-            <div className="group flex items-center gap-8">
-              <label htmlFor="tag" className="w-32">
-                Teacher's Tag:
-              </label>
-              <input
-                name="tag"
-                id="tag"
-                type="text"
-                className="flex-grow rounded border px-3 py-2 text-sm outline-none"
-                placeholder="Enter teacher's tag..."
-                required
-              />
-            </div>
-            <div className="group flex items-center gap-8">
-              <label htmlFor="designation" className="w-32">
-                Designation:
-              </label>
-              <input
-                name="designation"
-                id="designation"
-                type="text"
-                className="flex-grow rounded border px-3 py-2 text-sm outline-none"
-                placeholder="Enter designation..."
-                required
-              />
-            </div>
-            <div className="group flex items-center gap-8">
-              <label htmlFor="phone" className="w-32">
-                Phone Number:
-              </label>
-              <input
-                name="phone"
-                id="phone"
-                type="text"
-                className="flex-grow rounded border px-3 py-2 text-sm outline-none"
-                placeholder="Enter phone..."
-              />
-            </div>
-            <div className="group flex items-center gap-8">
-              <label htmlFor="email" className="w-32">
-                Email Address:
-              </label>
-              <input
-                name="email"
-                id="email"
-                type="email"
-                className="flex-grow rounded border px-3 py-2 text-sm outline-none"
-                placeholder="Enter email..."
-              />
-            </div>
-            <TeacherPhoto />
-            <div className="group flex items-center justify-center gap-8">
-              <input
+
+            {/* Submit Button */}
+            <div className="pt-2">
+              <button
                 type="submit"
-                value="Add Teacher"
-                className="cursor-pointer rounded-lg border bg-blue-500 px-8 py-2 font-medium text-white hover:bg-blue-600"
-              />
+                disabled={pending}
+                className="w-full rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 font-medium text-white shadow-md transition hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-70"
+              >
+                {pending ? "Adding Teacher..." : "Add Teacher"}
+              </button>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );

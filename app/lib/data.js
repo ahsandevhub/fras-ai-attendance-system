@@ -152,7 +152,7 @@ export async function fetchStudentIds({ dept, sem, sec }) {
   }
 }
 
-export async function fetchAllTeachers(dept) {
+export async function fetchAllTeachers({ dept }) {
   try {
     await dbConnect();
     const query = {};
@@ -189,7 +189,11 @@ export async function fetchAllTeacherName(dept) {
       throw new Error("No teacher name found!");
     }
 
-    const teacherNames = teachers.map((teacher) => teacher.name);
+    const teacherNames = teachers.map((teacher) => ({
+      _id: teacher._id.toString(),
+      name: teacher.name,
+      tag: teacher.tag,
+    }));
 
     return teacherNames;
   } catch (error) {

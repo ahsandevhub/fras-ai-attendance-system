@@ -61,6 +61,22 @@ const DashboardPage = async () => {
       percentage: 86,
       status: "Good",
     },
+    {
+      code: "CSE-0610-114",
+      title: "Database Systems",
+      classes: 5,
+      attended: 3,
+      percentage: 60,
+      status: "Warning",
+    },
+    {
+      code: "CSE-0610-115",
+      title: "Computer Networks",
+      classes: 7,
+      attended: 6,
+      percentage: 86,
+      status: "Good",
+    },
   ];
 
   // Mock upcoming events
@@ -114,7 +130,7 @@ const DashboardPage = async () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="header sticky top-0 flex items-center justify-between rounded-b-md bg-gradient-to-r from-green-600 to-green-700 px-6 py-3 text-white shadow-lg">
         <div className="flex items-center gap-3">
@@ -137,7 +153,7 @@ const DashboardPage = async () => {
         </div>
       </div>
 
-      <div className="my-4">
+      <div className="p-4">
         {/* Welcome Section */}
         <div className="greetings mb-6 flex flex-col justify-between rounded-xl border border-green-100 bg-green-50 bg-gradient-to-r from-green-50 to-teal-50 p-6 shadow-sm md:flex-row">
           <div className="flex flex-col gap-4 sm:flex-row">
@@ -190,7 +206,7 @@ const DashboardPage = async () => {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className={`rounded-xl p-5 shadow-sm ${stat.color}`}
+              className={`rounded-xl border p-5 shadow-sm ${stat.color}`}
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -239,7 +255,7 @@ const DashboardPage = async () => {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-green-50 text-left">
+                  <tr className="bg-green-50 text-left *:border">
                     <th className="px-4 py-2">Course Code</th>
                     <th className="px-4 py-2">Course Title</th>
                     <th className="px-4 py-2 text-center">Classes</th>
@@ -250,7 +266,7 @@ const DashboardPage = async () => {
                 </thead>
                 <tbody className="divide-y">
                   {courses.map((course, index) => (
-                    <tr key={index} className="hover:bg-gray-50">
+                    <tr key={index} className="*:border hover:bg-gray-50">
                       <td className="px-4 py-3 font-medium">{course.code}</td>
                       <td className="px-4 py-3">{course.title}</td>
                       <td className="px-4 py-3 text-center">

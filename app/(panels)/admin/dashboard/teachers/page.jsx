@@ -10,8 +10,12 @@ import {
 import { RiBuilding2Line } from "react-icons/ri";
 import TeacherFilters from "./teacher-filters";
 
-const Page = async () => {
-  const teachers = await fetchAllTeachers();
+const Page = async ({ searchParams }) => {
+  const filters = {
+    dept: searchParams?.dept || "",
+  };
+
+  const teachers = await fetchAllTeachers(filters);
 
   return (
     <div className="min-h-screen bg-gray-50">

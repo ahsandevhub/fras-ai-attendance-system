@@ -1,20 +1,20 @@
-'use client'
+"use client";
 
-import { useRouter } from 'next/navigation'
-import { FaArrowLeftLong } from 'react-icons/fa6'
+import { useRouter } from "next/navigation";
 
-export const GoBackButton = () => {
-  const router = useRouter()
+export const GoBackButton = ({ className = "", children }) => {
+  const router = useRouter();
 
   const handleGoBack = () => {
-    router.back()
-  }
+    router.back();
+  };
+
   return (
     <button
       onClick={handleGoBack}
-      className="flex w-max items-center gap-2 rounded-lg bg-blue-500 px-3 py-[5px] text-white hover:bg-blue-600"
+      className={`flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow transition hover:bg-blue-50 ${className}`}
     >
-      <FaArrowLeftLong /> <span>Go Back</span>
+      {children || <span>Go Back</span>}
     </button>
-  )
-}
+  );
+};
