@@ -66,6 +66,7 @@ const Page = () => {
                   <option value="EEE">Electrical Engineering</option>
                   <option value="Civil">Civil Engineering</option>
                   <option value="Mechanical">Mechanical Engineering</option>
+                  <option value="Math">Mathmatics</option>
                   <option value="English">English</option>
                   <option value="BBA">Business Administration</option>
                 </select>

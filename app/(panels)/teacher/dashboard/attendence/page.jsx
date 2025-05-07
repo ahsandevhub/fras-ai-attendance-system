@@ -1,11 +1,20 @@
-"use client";
-
-import { fetchStudentsForAttendance } from "@/app/lib/data";
+import {
+  fetchCourses,
+  fetchStudentsForAttendance,
+  fetchTeacher,
+} from "@/app/lib/data";
+import { validateToken } from "@/app/lib/jwt";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import { FaArrowLeft, FaClipboardCheck } from "react-icons/fa";
-import Attendance from "./attendance2";
+import Attendance from "./attendance";
 
 const Page = async ({ searchParams }) => {
+  const cookieStore = cookies();
+  const token = cookieStore.get("teacherToken")?.value;
+  const { decoded } = await validateToken(token);
+  const teacher = await fetchTeacher(decoded._id);
+
   const filters = {
     dept: searchParams?.dept || "",
     sem: searchParams?.sem || "",
@@ -19,12 +28,23 @@ const Page = async ({ searchParams }) => {
     students = await fetchStudentsForAttendance(filters);
   }
 
+  let courses;
+  let error = null;
+
+  try {
+    courses = await fetchCourses({ instructor: teacher._id || "" });
+  } catch (err) {
+    console.error("Failed to fetch courses:", err);
+    error = "No courses found. Please ask admin to assign courses to you.";
+    courses = []; // Set empty array to prevent rendering errors
+  }
+
   if (students.length !== 0) {
     studentIds = students.map((item) => item.id);
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="relative min-h-screen bg-gray-50">
       {/* Header */}
       <div className="header sticky top-0 flex items-center justify-between rounded-b-md bg-gradient-to-r from-rose-600 to-rose-700 px-6 py-3 text-white shadow-lg">
         <div className="flex items-center gap-3">
@@ -41,8 +61,13 @@ const Page = async ({ searchParams }) => {
       </div>
 
       {/* Content */}
-      <div className="my-4 px-4">
-        <Attendance students={students} labels={studentIds} filters={filters} />
+      <div className="p-4">
+        <Attendance
+          courses={courses}
+          students={students}
+          labels={studentIds}
+          filters={filters}
+        />
       </div>
     </div>
   );

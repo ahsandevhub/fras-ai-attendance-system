@@ -9,7 +9,7 @@ import {
   RiGroupLine,
 } from "react-icons/ri";
 
-const Filters = () => {
+const Filters = ({ courses }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -73,6 +73,7 @@ const Filters = () => {
             <option value="Civil">Civil</option>
             <option value="Mechanical">Mechanical</option>
             <option value="English">English</option>
+            <option value="Math">Mathmatics</option>
             <option value="BBA">Business Admin</option>
           </select>
         </div>
@@ -133,7 +134,22 @@ const Filters = () => {
             onChange={handleFilterChange}
             className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-rose-500 focus:outline-none focus:ring-1 focus:ring-rose-500"
           >
-            <option value="">All Courses</option>
+            {courses.length > 0 ? (
+              <>
+                <option value="" selected disabled>
+                  Select course
+                </option>
+                {courses.map((item, index) => (
+                  <option value={item.code} key={index}>
+                    {item.title}
+                  </option>
+                ))}
+              </>
+            ) : (
+              <option value="" selected disabled>
+                No Course Found
+              </option>
+            )}
           </select>
         </div>
       </div>

@@ -67,6 +67,7 @@ const CourseFilters = () => {
             <option value="Civil">Civil</option>
             <option value="Mechanical">Mechanical</option>
             <option value="English">English</option>
+            <option value="Math">Mathmatics</option>
             <option value="BBA">Business Admin</option>
           </select>
         </div>
