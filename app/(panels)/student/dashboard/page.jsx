@@ -132,7 +132,7 @@ const DashboardPage = async () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="header sticky top-0 flex items-center justify-between rounded-b-md bg-gradient-to-r from-green-600 to-green-700 px-6 py-3 text-white shadow-lg">
+      <div className="header sticky top-0 flex items-center justify-between rounded-b-md bg-gradient-to-r from-amber-600 to-amber-700 px-6 py-3 text-white shadow-lg">
         <div className="flex items-center gap-3">
           <RiDashboardFill className="text-2xl" />
           <h1 className="text-xl font-bold">Student Dashboard</h1>
@@ -155,7 +155,7 @@ const DashboardPage = async () => {
 
       <div className="p-4">
         {/* Welcome Section */}
-        <div className="greetings mb-6 flex flex-col justify-between rounded-xl border border-green-100 bg-green-50 bg-gradient-to-r from-green-50 to-teal-50 p-6 shadow-sm md:flex-row">
+        <div className="greetings mb-6 flex flex-col justify-between rounded-xl border border-amber-100 bg-amber-50 bg-gradient-to-r from-amber-50 to-amber-50 p-6 shadow-sm md:flex-row">
           <div className="flex flex-col gap-4 sm:flex-row">
             <div className="flex-shrink-0">
               <Image
@@ -167,30 +167,30 @@ const DashboardPage = async () => {
               />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-green-800">
+              <h2 className="text-2xl font-bold text-amber-800">
                 Welcome back,{" "}
-                <span className="text-green-600">{student.name}</span>!
+                <span className="text-amber-600">{student.name}</span>!
               </h2>
               <p className="mb-3 text-gray-600">
                 Here's your academic overview for today.
               </p>
               <div className="flex flex-wrap gap-3">
                 <div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm shadow">
-                  <FaCode className="text-green-500" />
+                  <FaCode className="text-amber-500" />
                   <span>
                     {student.dept} | Sem: {student.sem} | Sec: {student.sec}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm shadow">
-                  <FaHashtag className="text-green-500" />
+                  <FaHashtag className="text-amber-500" />
                   <span>{student.id}</span>
                 </div>
                 <div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm shadow">
-                  <MdAlternateEmail className="text-green-500" />
+                  <MdAlternateEmail className="text-amber-500" />
                   <span>{student.email}</span>
                 </div>
                 <div className="flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm shadow">
-                  <FaPhoneAlt className="text-green-500" />
+                  <FaPhoneAlt className="text-amber-500" />
                   <span>{student.phone}</span>
                 </div>
               </div>
@@ -226,19 +226,19 @@ const DashboardPage = async () => {
           {/* Upcoming Events */}
           <div className="rounded-xl border bg-white p-5 shadow-sm lg:col-span-1">
             <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold">
-              <FaCalendarAlt className="text-green-600" /> Upcoming Events
+              <FaCalendarAlt className="text-amber-600" /> Upcoming Events
             </h3>
             <div className="space-y-4">
               {upcomingEvents.map((event, index) => (
                 <div
                   key={index}
-                  className="rounded-lg border-l-4 border-green-400 bg-green-50 p-3"
+                  className="rounded-lg border-l-4 border-amber-400 bg-amber-50 p-3"
                 >
                   <p className="font-medium text-gray-800">{event.title}</p>
                   <p className="text-sm text-gray-600">{event.course}</p>
                   <div className="mt-2 flex items-center justify-between text-sm">
                     <span className="text-gray-500">{event.date}</span>
-                    <span className="font-medium text-green-600">
+                    <span className="font-medium text-amber-600">
                       {event.time}
                     </span>
                   </div>
@@ -250,12 +250,12 @@ const DashboardPage = async () => {
           {/* Attendance Overview */}
           <div className="rounded-xl border bg-white p-5 shadow-sm lg:col-span-2">
             <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold">
-              <MdClass className="text-green-600" /> Attendance Overview
+              <MdClass className="text-amber-600" /> Attendance Overview
             </h3>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-green-50 text-left *:border">
+                  <tr className="bg-amber-50 text-left *:border">
                     <th className="px-4 py-2">Course Code</th>
                     <th className="px-4 py-2">Course Title</th>
                     <th className="px-4 py-2 text-center">Classes</th>
@@ -282,7 +282,7 @@ const DashboardPage = async () => {
                             <div
                               className={`h-2 rounded-full ${
                                 course.percentage >= 80
-                                  ? "bg-green-500"
+                                  ? "bg-amber-500"
                                   : course.percentage >= 60
                                     ? "bg-amber-500"
                                     : "bg-red-500"
@@ -297,7 +297,7 @@ const DashboardPage = async () => {
                           className={`rounded-full px-3 py-1 text-xs font-medium ${
                             course.status === "Permitted" ||
                             course.status === "Good"
-                              ? "bg-green-100 text-green-800"
+                              ? "bg-amber-100 text-amber-800"
                               : course.status === "Warning"
                                 ? "bg-amber-100 text-amber-800"
                                 : "bg-red-100 text-red-800"
@@ -317,7 +317,7 @@ const DashboardPage = async () => {
         {/* Quick Links */}
         <div className="mt-6 rounded-xl border bg-white p-5 shadow-sm">
           <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold">
-            <MdSchool className="text-green-600" /> Quick Links
+            <MdSchool className="text-amber-600" /> Quick Links
           </h3>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             <a
@@ -331,9 +331,9 @@ const DashboardPage = async () => {
             </a>
             <a
               href="#"
-              className="flex flex-col items-center rounded-lg bg-green-50 p-4 text-center transition hover:bg-green-100"
+              className="flex flex-col items-center rounded-lg bg-amber-50 p-4 text-center transition hover:bg-amber-100"
             >
-              <div className="mb-2 rounded-full bg-green-100 p-3 text-green-600">
+              <div className="mb-2 rounded-full bg-amber-100 p-3 text-amber-600">
                 <MdAssignment />
               </div>
               <span className="text-sm font-medium">Assignments</span>

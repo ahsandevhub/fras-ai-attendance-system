@@ -74,15 +74,15 @@ const Page = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="header sticky top-0 flex items-center justify-between rounded-b-md bg-gradient-to-r from-green-600 to-green-700 px-6 py-3 text-white shadow-lg">
+      <div className="header sticky top-0 flex items-center justify-between rounded-b-md bg-gradient-to-r from-amber-600 to-amber-700 px-6 py-3 text-white shadow-lg">
         <div className="flex items-center gap-3">
           {/* Replace with your attendance icon */}
           <FaChartPie className="text-2xl" />
           <h1 className="text-xl font-bold">My Courses Attendance</h1>
         </div>
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 rounded-lg bg-green-50 bg-opacity-20 px-3 py-1">
-            <FaChartPie className="text-green-200" />
+          <div className="flex items-center gap-2 rounded-lg bg-amber-50 bg-opacity-20 px-3 py-1">
+            <FaChartPie className="text-amber-200" />
             <span className="text-sm font-medium">
               Overall:{" "}
               <span className="font-semibold">{attendancePercentage}%</span>
@@ -95,16 +95,16 @@ const Page = () => {
       <div className="space-y-4 p-4">
         {/* Attendance Summary Cards */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <div className="rounded-lg border border-green-200 bg-green-100 p-4">
+          <div className="rounded-lg border border-amber-200 bg-amber-100 p-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-medium text-green-800">
+              <h3 className="text-sm font-medium text-amber-800">
                 Total Classes
               </h3>
-              <div className="rounded-full bg-green-100 p-2 text-green-600">
+              <div className="rounded-full bg-amber-100 p-2 text-amber-600">
                 <MdOutlineClass />
               </div>
             </div>
-            <p className="mt-2 text-2xl font-bold text-green-900">
+            <p className="mt-2 text-2xl font-bold text-amber-900">
               {totalClasses}
             </p>
           </div>
@@ -140,9 +140,9 @@ const Page = () => {
           <div className="w-full rounded-lg border border-gray-200 bg-white p-4 shadow-sm lg:w-72">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="flex items-center gap-2 text-lg font-semibold">
-                <FaFilter className="text-green-600" /> Filters
+                <FaFilter className="text-amber-600" /> Filters
               </h2>
-              <button className="text-sm text-green-600 hover:underline">
+              <button className="text-sm text-amber-600 hover:underline">
                 Reset
               </button>
             </div>
@@ -157,7 +157,7 @@ const Page = () => {
                 </label>
                 <select
                   id="course"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:ring-green-500"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-amber-500 focus:ring-amber-500"
                 >
                   <option value="all">All Courses</option>
                   <option value="CSE-0610-112">Fourier Analysis</option>
@@ -176,7 +176,7 @@ const Page = () => {
                 </label>
                 <select
                   id="status"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:ring-green-500"
+                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-amber-500 focus:ring-amber-500"
                 >
                   <option value="all">All Status</option>
                   <option value="present">Present</option>
@@ -191,12 +191,12 @@ const Page = () => {
                 <div className="space-y-2">
                   <input
                     type="date"
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:ring-green-500"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-amber-500 focus:ring-amber-500"
                     placeholder="From"
                   />
                   <input
                     type="date"
-                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-green-500 focus:ring-green-500"
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-amber-500 focus:ring-amber-500"
                     placeholder="To"
                   />
                 </div>
@@ -204,7 +204,7 @@ const Page = () => {
 
               <button
                 type="submit"
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-amber-600 px-4 py-2 text-sm font-medium text-white hover:bg-amber-700"
               >
                 <FaSearch /> Apply Filters
               </button>
@@ -266,8 +266,8 @@ const Page = () => {
                       </td>
                       <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                         {record.status === "present" ? (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
-                            <FaCheckCircle className="text-green-500" /> Present
+                          <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-medium text-amber-800">
+                            <FaCheckCircle className="text-amber-500" /> Present
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-1 rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">
@@ -281,7 +281,7 @@ const Page = () => {
                             <div
                               className={`h-2 rounded-full ${
                                 record.status === "present"
-                                  ? "bg-green-500"
+                                  ? "bg-amber-500"
                                   : "bg-red-500"
                               }`}
                               style={{

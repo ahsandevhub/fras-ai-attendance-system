@@ -37,12 +37,12 @@ const StudentLayout = async ({ children }) => {
   ];
 
   const colors = {
-    text: "text-green-600",
-    hoverText: "hover:text-green-600",
-    bg: "bg-green-600",
-    hoverBg: "hover:bg-green-100",
-    lightBg: "bg-green-100",
-    border: "border-green-200",
+    text: "text-amber-600",
+    hoverText: "hover:text-amber-600",
+    bg: "bg-amber-600",
+    hoverBg: "hover:bg-amber-100",
+    lightBg: "bg-amber-100",
+    border: "border-amber-200",
   };
 
   return (
