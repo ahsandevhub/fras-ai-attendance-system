@@ -33,7 +33,7 @@ const TeacherLayout = async ({ children }) => {
     },
     {
       name: "Attendence",
-      href: "/teacher/dashboard/attendence",
+      href: "/teacher/dashboard/attendance",
       icon: <GiNotebook />,
     },
     {

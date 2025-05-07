@@ -11,6 +11,7 @@ import {
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import path from "path";
+import Attendance from "../models/attendance";
 import Course from "../models/course";
 
 // Initialize S3 client
@@ -247,4 +248,17 @@ export async function addCourse(formData) {
     console.error("Failed to add course:", error);
     return { error: "Failed to add course!", status: 500 };
   }
+}
+
+export async function addAttendance(formData) {
+  try {
+    await dbConnect();
+    await Attendance.create(formData);
+  } catch (error) {
+    console.error("Failed to add attendance:", error);
+    throw new Error("Failed to add attendance!");
+  }
+
+  revalidatePath("/teacher/dashboard/attendance");
+  redirect("/teacher/dashboard/attendance");
 }

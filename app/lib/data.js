@@ -3,6 +3,7 @@
 import dbConnect from "@/app/lib/db";
 import Student from "@/app/models/student";
 import Admin from "../models/admin";
+import Attendance from "../models/attendance";
 import Course from "../models/course";
 import Teacher from "../models/teacher";
 
@@ -234,5 +235,123 @@ export async function fetchCourses({ dept, sem, instructor }) {
     console.log("Failed to fetch courses: ", error);
 
     throw new Error("Failed to fetch courses!");
+  }
+}
+
+export async function fetchAttendance({ dept, sem, sec, course }) {
+  try {
+    await dbConnect();
+    const query = {};
+    if (dept) query.dept = dept;
+    if (sem) query.sem = sem;
+    if (sec) query.sec = sec;
+    if (course) query.course = course;
+
+    const attendance = await Attendance.find(query)
+      .populate({
+        path: "instructor",
+        select: "name",
+        model: Teacher,
+      })
+      .populate({
+        path: "course",
+        select: "title code",
+        model: Course,
+      })
+      .lean()
+      .sort({ _id: 1 });
+
+    if (!attendance || attendance.length === 0) {
+      throw new Error("No attendance found");
+    }
+
+    const attendanceWithDetails = attendance.map((record) => ({
+      ...record,
+      _id: record._id.toString(),
+      instructor: {
+        _id: record.instructor?._id?.toString() || null,
+        name: record.instructor?.name || "Unknown Instructor",
+      },
+      course: {
+        _id: record.course?._id?.toString() || null,
+        title: record.course?.title || "Unknown Course",
+        code: record.course?.code || "N/A",
+      },
+    }));
+
+    return attendanceWithDetails;
+  } catch (error) {
+    console.log("Failed to fetch attendance: ", error);
+    return [];
+  }
+}
+
+export async function fetchAttendanceById(id) {
+  try {
+    await dbConnect();
+
+    const attendance = await Attendance.findById(id)
+      .populate({
+        path: "instructor",
+        select: "name",
+        model: Teacher,
+      })
+      .populate({
+        path: "course",
+        select: "title code",
+        model: Course,
+      })
+      .lean();
+
+    if (!attendance) {
+      throw new Error("No attendance record found with that ID");
+    }
+
+    // Fetch student details for each attendance record
+    const studentIds = attendance.attendance.map((item) => item.id);
+    const students = await Student.find({ id: { $in: studentIds } }).lean();
+
+    // Map student details to attendance records
+    const attendanceWithStudentDetails = {
+      ...attendance,
+      _id: attendance._id.toString(),
+      instructor: {
+        _id: attendance.instructor?._id?.toString() || null,
+        name: attendance.instructor?.name || "Unknown Instructor",
+      },
+      course: {
+        _id: attendance.course?._id?.toString() || null,
+        title: attendance.course?.title || "Unknown Course",
+        code: attendance.course?.code || "N/A",
+      },
+      attendance: attendance.attendance.map((attendanceRecord) => {
+        const student = students.find((s) => s.id === attendanceRecord.id);
+        return {
+          ...attendanceRecord,
+          student: student
+            ? {
+                _id: student._id.toString(),
+                id: student.id,
+                name: student.name,
+                email: student.email,
+                phone: student.phone,
+                photo: student.photo,
+                dept: student.dept,
+                sem: student.sem,
+                sec: student.sec,
+              }
+            : null,
+        };
+      }),
+    };
+
+    console.log(
+      "Server response with student details:",
+      attendanceWithStudentDetails,
+    );
+    return attendanceWithStudentDetails;
+  } catch (error) {
+    console.error("Failed to fetch attendance by ID: ", error);
+    return null;
   }
 }

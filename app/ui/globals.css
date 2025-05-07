@@ -60,3 +60,12 @@ select.form-input {
   background-size: 1.5em 1.5em;
   padding-right: 2.5rem;
 }
+
+@keyframes progress {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}

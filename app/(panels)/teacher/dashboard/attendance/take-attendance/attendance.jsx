@@ -1,8 +1,17 @@
 "use client";
 
+import { addAttendance } from "@/app/lib/actions";
 import * as faceapi from "face-api.js";
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
+import { FaClipboardCheck } from "react-icons/fa6";
 import { IoMdDoneAll } from "react-icons/io";
 import { IoWarningOutline } from "react-icons/io5";
 import {
@@ -12,10 +21,10 @@ import {
   RiGroupLine,
 } from "react-icons/ri";
 import { TiDelete } from "react-icons/ti";
-import { VscLoading } from "react-icons/vsc";
 import Filters from "./filters";
 
-const Attendance = ({ students, labels, filters, courses }) => {
+const Attendance = ({ students, labels, filters, courses, instructor }) => {
+  const [isPending, startTransition] = useTransition();
   const canvasRef = useRef();
   const [image, setImage] = useState(null);
   const [detectedFaces, setDetectedFaces] = useState([]);
@@ -162,19 +171,53 @@ const Attendance = ({ students, labels, filters, courses }) => {
     [detectedFaces],
   );
 
+  const attendanceArray = labels.map((id) => ({
+    id,
+    attend: detectedIdArray.includes(id),
+  }));
+
   return (
     <div className="">
       {isModelLoading ? (
-        <div className="flex h-[calc(100vh-62px)] flex-col items-center justify-center gap-2 rounded-md border bg-gray-100">
-          <VscLoading className="animate-spin text-5xl text-blue-600" />
-          <p className="text-xl font-medium">Loading Models, Please wait...</p>
+        <div className="flex h-[calc(100vh-62px)] flex-col items-center justify-center gap-4 rounded-xl bg-white p-8 shadow-sm">
+          <div className="relative">
+            {/* Outer ring */}
+            <div className="h-20 w-20 rounded-full border-4 border-rose-100"></div>
+
+            {/* Animated spinner */}
+            <div className="absolute left-0 top-0 h-20 w-20 animate-spin rounded-full border-4 border-rose-600 border-t-transparent"></div>
+
+            {/* Center icon */}
+            <FaClipboardCheck className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl text-rose-600" />
+          </div>
+
+          <div className="text-center">
+            <h3 className="text-xl font-semibold text-gray-800">
+              Loading Attendance System
+            </h3>
+            <p className="mt-1 text-gray-500">
+              Initializing face recognition models...
+            </p>
+          </div>
+
+          {/* Progress bar with linear animation */}
+          <div className="mt-4 w-full max-w-xs overflow-hidden rounded-full bg-gray-200">
+            <div
+              className="h-2 bg-gradient-to-r from-rose-500 to-rose-600"
+              style={{
+                width: "100%",
+                transformOrigin: "0% 50%",
+                animation: "progress 1.5s linear infinite",
+              }}
+            ></div>
+          </div>
         </div>
       ) : (
         <div className="">
           <Filters courses={courses} />
           <div className="mt-4 grid grid-cols-1 gap-6 lg:grid-cols-2">
             {/* Left Column - Image Upload */}
-            <div className="sticky top-16 h-max space-y-4">
+            <div className="h-max space-y-4 md:sticky md:top-16">
               <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
                 <label htmlFor="image" className="cursor-pointer">
                   {image ? (
@@ -241,7 +284,7 @@ const Attendance = ({ students, labels, filters, courses }) => {
                         />
                       </div>
                     </div>
-                    <div className="grid grid-cols-10 gap-3">
+                    <div className="grid grid-cols-4 gap-3 md:grid-cols-6 2xl:grid-cols-10">
                       {detectedFaces
                         .sort((a, b) =>
                           a.label
@@ -358,11 +401,26 @@ const Attendance = ({ students, labels, filters, courses }) => {
                     </p>
                     <button
                       type="button"
+                      onClick={() =>
+                        startTransition(() =>
+                          addAttendance({
+                            course:
+                              courses.find(
+                                (course) => course.code === filters.course,
+                              )?._id || null,
+                            instructor: instructor,
+                            dept: filters.dept,
+                            sem: filters.sem,
+                            sec: filters.sec,
+                            attendance: attendanceArray,
+                          }),
+                        )
+                      }
                       disabled={!filters.course}
                       className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white shadow-md transition hover:bg-blue-700 ${!filters.course ? "cursor-not-allowed bg-gray-400 hover:bg-gray-400" : "bg-blue-600"} `}
                     >
                       <IoMdDoneAll className="text-lg" />
-                      Confirm & Save
+                      {isPending ? "Saving Attendance..." : "Confirm & Save"}
                     </button>
                   </div>
                 </div>
